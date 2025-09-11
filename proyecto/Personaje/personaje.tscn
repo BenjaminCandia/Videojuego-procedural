@@ -145,13 +145,13 @@ radius = 7.0
 height = 32.0
 
 [node name="Personaje" type="Node2D"]
-position = Vector2(93, 75)
+position = Vector2(69, 44)
 
 [node name="personaje" type="CharacterBody2D" parent="."]
-position = Vector2(-12, 152)
 script = ExtResource("1_0kevx")
 move_speed = 130.0
 jump_speed = 350.0
+gravity = 1000.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="personaje"]
 sprite_frames = SubResource("SpriteFrames_c3rv3")
@@ -160,3 +160,12 @@ animation = &"estatico"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="personaje"]
 position = Vector2(-5, 9)
 shape = SubResource("CapsuleShape2D_wjiqf")
+
+[node name="Marker2D" type="Marker2D" parent="personaje"]
+position = Vector2(3, 3)
+
+[node name="coyote_timer" type="Timer" parent="personaje"]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="personaje/coyote_timer" to="personaje" method="_on_coyote_timer_timeout"]
