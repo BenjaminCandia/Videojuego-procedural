@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3kj7af788uc"]
+
+[ext_resource type="Script" uid="uid://dxgk0emb0ahuq" path="res://custom_button.gd" id="1_emtn6"]
+
+[node name="CustomButton" type="Button"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_emtn6")
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+
+[node name="OnHover" type="AudioStreamPlayer" parent="."]
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]
