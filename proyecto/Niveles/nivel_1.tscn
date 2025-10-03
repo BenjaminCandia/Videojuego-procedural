@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" uid="uid://cuy62584suubg" path="res://Niveles/nivel_1.gd" id="1_m401e"]
 [ext_resource type="Texture2D" uid="uid://d8ie2uup3eym" path="res://Sprites Proyecto/2 Background/Background.png" id="1_rhy5s"]
-[ext_resource type="TileSet" uid="uid://b8nf1c40ek83d" path="res://Niveles/nivel_1.tres" id="2_hpks4"]
+[ext_resource type="Texture2D" uid="uid://dtk3jeexpn1pi" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_04.png" id="2_yx6ie"]
+[ext_resource type="Texture2D" uid="uid://vaf034e4vmbo" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_05.png" id="3_ssm0c"]
+[ext_resource type="Texture2D" uid="uid://bm14u2fyali5i" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_06.png" id="4_sgxf1"]
+[ext_resource type="Texture2D" uid="uid://cwjd4iu4dmj43" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_73.png" id="5_ssm0c"]
+[ext_resource type="Texture2D" uid="uid://srawtgedxf48" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_22.png" id="6_4r1lh"]
 [ext_resource type="PackedScene" uid="uid://b33mmxlw6v4o5" path="res://Personaje/personaje.tscn" id="6_sgxf1"]
 [ext_resource type="Texture2D" uid="uid://bd2fqgp6k4s68" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_27.png" id="7_5drqo"]
 [ext_resource type="Texture2D" uid="uid://fxvufqs12nvw" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_36.png" id="8_m401e"]
