@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://cimmsx3g38y0o"]
+
+[ext_resource type="Script" uid="uid://b7cku2wptlaka" path="res://Niveles/puerta.gd" id="1_1h0p7"]
+[ext_resource type="Script" uid="uid://dgbtbsmsymh5b" path="res://area_2d.gd" id="2_ufeg8"]
+[ext_resource type="Texture2D" uid="uid://dpw6ix6hm6awa" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_63.png" id="3_24v0a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xb50p"]
+size = Vector2(30.5, 30)
+
+[node name="Puerta" type="Node2D"]
+script = ExtResource("1_1h0p7")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("2_ufeg8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_xb50p")
+
+[node name="IndustrialTile63" type="Sprite2D" parent="Area2D"]
+texture = ExtResource("3_24v0a")

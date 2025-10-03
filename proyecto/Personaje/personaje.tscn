@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://b33mmxlw6v4o5"]
 
-[ext_resource type="Script" uid="uid://kgtc52pyb7iv" path="res://Personaje/character_body_2d.gd" id="1_0kevx"]
+[ext_resource type="Script" uid="uid://i1emtkeh44tb" path="res://Personaje/personaje.gd" id="1_rbp53"]
 [ext_resource type="Texture2D" uid="uid://dh8ui1fm065sa" path="res://Sprites Proyecto/1 Biker/Biker_run.png" id="2_lr5g2"]
 [ext_resource type="Texture2D" uid="uid://60ha74r10eeg" path="res://Sprites Proyecto/1 Biker/Biker_idle.png" id="2_rbp53"]
 [ext_resource type="Texture2D" uid="uid://daevf1011xily" path="res://Sprites Proyecto/1 Biker/Biker_jump.png" id="2_t148j"]
@@ -144,28 +144,23 @@ animations = [{
 radius = 7.0
 height = 32.0
 
-[node name="Personaje" type="Node2D"]
-position = Vector2(69, 44)
-
-[node name="personaje" type="CharacterBody2D" parent="."]
-script = ExtResource("1_0kevx")
+[node name="personaje" type="CharacterBody2D"]
+script = ExtResource("1_rbp53")
 move_speed = 130.0
 jump_speed = 350.0
 gravity = 1000.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="personaje"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c3rv3")
-animation = &"estatico"
+animation = &"salto"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="personaje"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5, 9)
 shape = SubResource("CapsuleShape2D_wjiqf")
 
-[node name="Marker2D" type="Marker2D" parent="personaje"]
+[node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(3, 3)
 
-[node name="coyote_timer" type="Timer" parent="personaje"]
+[node name="coyote_timer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
-
-[connection signal="timeout" from="personaje/coyote_timer" to="personaje" method="_on_coyote_timer_timeout"]
