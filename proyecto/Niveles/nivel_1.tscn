@@ -114,7 +114,7 @@ script = ExtResource("1_m401e")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(239.5, 140)
-scale = Vector2(0.89062506, 0.93209875)
+scale = Vector2(0.890625, 0.932099)
 texture = ExtResource("1_rhy5s")
 
 [node name="suelos" type="TileMapLayer" parent="."]
