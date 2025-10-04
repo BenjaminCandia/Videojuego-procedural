@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://c80n0orfmhy33"]
+[gd_scene load_steps=4 format=3 uid="uid://cimmsx3g38y0o"]
 
 [ext_resource type="Script" uid="uid://b7cku2wptlaka" path="res://puerta.gd" id="1_uqnal"]
 [ext_resource type="Texture2D" uid="uid://dpw6ix6hm6awa" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_63.png" id="2_nyv7f"]
