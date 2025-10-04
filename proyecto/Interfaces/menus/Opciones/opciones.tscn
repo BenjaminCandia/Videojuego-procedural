@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgmd4lmkboxq7"]
+
+[ext_resource type="FontFile" uid="uid://0cwcdt46ru17" path="res://Sprites Proyecto/10 Font/CyberpunkCraftpixPixel.otf" id="1_gvvmd"]
+[ext_resource type="Script" uid="uid://dhrcojeredpgc" path="res://Interfaces/menus/Opciones/opciones.gd" id="1_pp1rb"]
+[ext_resource type="Script" uid="uid://dxgk0emb0ahuq" path="res://custom_button.gd" id="2_pp1rb"]
+
+[sub_resource type="Theme" id="Theme_kkemd"]
+default_font = ExtResource("1_gvvmd")
+
+[node name="Opciones" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pp1rb")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_kkemd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Grafics" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "GRAFICS"
+script = ExtResource("2_pp1rb")
+metadata/_custom_type_script = "uid://dxgk0emb0ahuq"
+
+[node name="Sound" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "SOUND"
+script = ExtResource("2_pp1rb")
+metadata/_custom_type_script = "uid://dxgk0emb0ahuq"
+
+[node name="Menu" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "MENU"
+script = ExtResource("2_pp1rb")
+metadata/_custom_type_script = "uid://dxgk0emb0ahuq"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Grafics" to="." method="_on_grafics_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Sound" to="." method="_on_sound_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Menu" to="." method="_on_menu_pressed"]

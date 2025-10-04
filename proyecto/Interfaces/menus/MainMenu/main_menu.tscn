@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://b5fnjob4ue7w1"]
+[gd_scene load_steps=10 format=3 uid="uid://b5fnjob4ue7w1"]
 
 [ext_resource type="FontFile" uid="uid://0cwcdt46ru17" path="res://Sprites Proyecto/10 Font/CyberpunkCraftpixPixel.otf" id="1_0cuu7"]
-[ext_resource type="Script" uid="uid://ccee6685paf3q" path="res://Interfaces/menus/main_menu.gd" id="1_w8iid"]
+[ext_resource type="Script" uid="uid://ccee6685paf3q" path="res://Interfaces/menus/MainMenu/main_menu.gd" id="1_w8iid"]
 [ext_resource type="PackedScene" uid="uid://c3kj7af788uc" path="res://Interfaces/menus/custom_button.tscn" id="2_w8iid"]
+[ext_resource type="Script" uid="uid://dxgk0emb0ahuq" path="res://custom_button.gd" id="4_dqc4t"]
+[ext_resource type="Texture2D" uid="uid://n1mpfxl4usll" path="res://Interfaces/ciudad.png" id="5_ol0y6"]
+[ext_resource type="PackedScene" uid="uid://ddudvvb6f0lnu" path="res://Interfaces/menus/MainMenu/parallax_background.tscn" id="5_qbkh8"]
 
 [sub_resource type="Theme" id="Theme_4q22r"]
 MarginContainer/constants/margin_bottom = 10
@@ -55,9 +58,24 @@ theme = SubResource("Theme_8k1ht")
 layout_mode = 2
 text = "START"
 
+[node name="Options" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Options"
+script = ExtResource("4_dqc4t")
+metadata/_custom_type_script = "uid://dxgk0emb0ahuq"
+
 [node name="Exit" parent="MarginContainer/VBoxContainer/VBoxContainer2" instance=ExtResource("2_w8iid")]
 layout_mode = 2
 text = "EXIT"
 
+[node name="ParallaxBackground" parent="." instance=ExtResource("5_qbkh8")]
+
+[node name="Ciudad" type="Sprite2D" parent="ParallaxBackground"]
+z_index = -500
+position = Vector2(240, 139)
+scale = Vector2(0.32194, 0.283691)
+texture = ExtResource("5_ol0y6")
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/Options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/Exit" to="." method="_on_exit_pressed"]

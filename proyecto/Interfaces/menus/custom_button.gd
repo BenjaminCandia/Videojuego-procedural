@@ -1,5 +1,5 @@
 extends Button
-class_name CustomButton
+class_name Custom_Button
 
 @onready var click: AudioStreamPlayer = $Click
 @onready var on_hover: AudioStreamPlayer = $OnHover
@@ -13,7 +13,7 @@ func _on_pressed() -> void:
 	if click and click.stream:
 		click.play()
 
-# Funcionalidad para cuando el mouse haga contacto con el botón
+# Funcionalidad 
 func _on_mouse_entered() -> void:
 	if on_hover and on_hover.stream:
 		on_hover.play()
