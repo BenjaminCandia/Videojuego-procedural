@@ -1,0 +1,75 @@
+[gd_scene load_steps=9 format=3 uid="uid://3n2py23c1ym1"]
+
+[ext_resource type="FontFile" uid="uid://0cwcdt46ru17" path="res://Sprites Proyecto/10 Font/CyberpunkCraftpixPixel.otf" id="1_0l4mk"]
+[ext_resource type="Script" uid="uid://oj186bkex2yn" path="res://Interfaces/GameOver/game_over.gd" id="1_wx1p7"]
+[ext_resource type="Script" uid="uid://d4mdiea8xjsl5" path="res://Interfaces/menus/custom_button.gd" id="2_wx1p7"]
+[ext_resource type="PackedScene" uid="uid://ddudvvb6f0lnu" path="res://Interfaces/menus/MainMenu/parallax_background.tscn" id="4_8xp8w"]
+[ext_resource type="Texture2D" uid="uid://n1mpfxl4usll" path="res://Interfaces/ciudad.png" id="5_ug5r6"]
+
+[sub_resource type="Theme" id="Theme_a02ig"]
+default_font = ExtResource("1_0l4mk")
+default_font_size = 46
+
+[sub_resource type="Theme" id="Theme_8xp8w"]
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_ug5r6"]
+default_font_size = 20
+
+[node name="GameOver" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wx1p7")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_a02ig")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "GAME OVER"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_8xp8w")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "¡TU PUNTAJE ES: 1000!"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = SubResource("Theme_ug5r6")
+
+[node name="Volver" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+text = "vOLVER"
+script = ExtResource("2_wx1p7")
+metadata/_custom_type_script = "uid://d4mdiea8xjsl5"
+
+[node name="ParallaxBackground" parent="." instance=ExtResource("4_8xp8w")]
+
+[node name="Ciudad" type="Sprite2D" parent="ParallaxBackground"]
+z_index = -500
+position = Vector2(233, 130)
+scale = Vector2(0.315267, 0.260986)
+texture = ExtResource("5_ug5r6")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/Volver" to="." method="_on_volver_pressed"]
