@@ -37,7 +37,7 @@ position = Vector2(46, 200)
 [node name="Area2D" type="Area2D" parent="Puerta"]
 position = Vector2(1, 1)
 script = ExtResource("4_qprr7")
-next_scene = "res://Interfaces/menus/MainMenu/main_menu.tscn"
+next_scene = "res://Interfaces/GameOver/game_over.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Puerta/Area2D"]
 position = Vector2(448.5, 46.5)
