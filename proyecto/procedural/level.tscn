@@ -10,6 +10,7 @@
 size = Vector2(31, 29)
 
 [node name="Level" type="Node2D"]
+position = Vector2(1, 0)
 script = ExtResource("1_t8rqg")
 
 [node name="TileMap" type="TileMap" parent="."]

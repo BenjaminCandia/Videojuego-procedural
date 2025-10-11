@@ -9,7 +9,6 @@ var is_facing_right = true
 
 var coyote_timer: float = 0.0
 
-const bala = preload("res://disparo/area_2d.tscn")
 
 func _physics_process(delta): 
 	# Movimiento lateral
@@ -47,12 +46,7 @@ func _physics_process(delta):
 			animated_sprite.play("salto")
 		else:
 			animated_sprite.play("caida")
-	# Disparo
-	if Input.is_action_just_pressed("Disparar"):
-		var shoot = bala.instantiate()
-		get_parent().add_child(shoot)
-		shoot.global_position = global_position  
-		
+
 
 	# Movimiento final
 	move_and_slide()
