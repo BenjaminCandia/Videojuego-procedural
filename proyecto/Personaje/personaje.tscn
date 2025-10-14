@@ -146,9 +146,9 @@ height = 28.0
 
 [node name="personaje" type="CharacterBody2D"]
 script = ExtResource("1_rbp53")
-move_speed = 130.0
+move_speed = 210.0
 jump_speed = 350.0
-gravity = 1000.0
+gravity = 950.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c3rv3")

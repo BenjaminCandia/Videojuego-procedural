@@ -72,8 +72,8 @@ text = "EXIT"
 
 [node name="Ciudad" type="Sprite2D" parent="ParallaxBackground"]
 z_index = -500
-position = Vector2(240, 139)
-scale = Vector2(0.32194, 0.283691)
+position = Vector2(321.37506, 183.87509)
+scale = Vector2(0.42789713, 0.37133765)
 texture = ExtResource("5_ol0y6")
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/StartGame" to="." method="_on_start_game_pressed"]

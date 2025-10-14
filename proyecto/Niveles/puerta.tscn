@@ -1,18 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://cimmsx3g38y0o"]
 
 [ext_resource type="Script" uid="uid://b7cku2wptlaka" path="res://puerta.gd" id="1_uqnal"]
-[ext_resource type="Texture2D" uid="uid://dpw6ix6hm6awa" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_63.png" id="2_nyv7f"]
+[ext_resource type="Texture2D" uid="uid://cftbsj4o8cpo7" path="res://editable-pixel-art-closed-modern-space-door-illustration-for-game-development-game-assets-poster-graphic-design-website-assets-vector.png" id="2_uqnal"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6uwi1"]
-size = Vector2(31, 31)
+size = Vector2(50.5, 41)
 
 [node name="puerta" type="Node2D"]
 script = ExtResource("1_uqnal")
 
 [node name="Area2D" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_6uwi1")
-
 [node name="IndustrialTile63" type="Sprite2D" parent="Area2D"]
-texture = ExtResource("2_nyv7f")
+scale = Vector2(0.36749998, 0.345)
+texture = ExtResource("2_uqnal")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.25, 4.5)
+shape = SubResource("RectangleShape2D_6uwi1")
