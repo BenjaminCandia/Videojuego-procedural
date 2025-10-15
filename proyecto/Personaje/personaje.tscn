@@ -146,16 +146,15 @@ height = 28.0
 
 [node name="personaje" type="CharacterBody2D"]
 script = ExtResource("1_rbp53")
-move_speed = 210.0
-jump_speed = 350.0
-gravity = 950.0
+dash_speed = 400.0
+dash_duration = 0.1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c3rv3")
 animation = &"salto"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-5, 9)
+position = Vector2(-8, 7)
 shape = SubResource("CapsuleShape2D_wjiqf")
 
 [node name="Marker2D" type="Marker2D" parent="."]

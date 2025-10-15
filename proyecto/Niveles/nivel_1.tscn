@@ -140,8 +140,8 @@ position = Vector2(575, 78.25)
 shape = SubResource("RectangleShape2D_kawa7")
 
 [node name="personaje" parent="." instance=ExtResource("6_sgxf1")]
-position = Vector2(41, 325)
-move_speed = 210.0
-gravity = 950.0
+position = Vector2(42, 321)
+dash_speed = 500.0
+dash_cooldown = 0.4
 
 [connection signal="body_entered" from="Puerta/Area2D" to="Puerta/Area2D" method="_on_body_entered"]
