@@ -1,13 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://chmgracohfefg"]
+[gd_scene load_steps=5 format=3 uid="uid://chmgracohfefg"]
 
 [ext_resource type="TileSet" uid="uid://b8nf1c40ek83d" path="res://Niveles/nivel_1.tres" id="1_st0sc"]
 [ext_resource type="Script" uid="uid://buct8mpcr4gtk" path="res://procedural/level.gd" id="1_t8rqg"]
+[ext_resource type="PackedScene" uid="uid://cexkktb7pq7ui" path="res://Niveles/puerta.tscn" id="3_6hd8b"]
 [ext_resource type="PackedScene" uid="uid://b33mmxlw6v4o5" path="res://Personaje/personaje.tscn" id="3_gist2"]
-[ext_resource type="Script" uid="uid://bsesxq6s4kgxs" path="res://Niveles/puerta.gd" id="4_qprr7"]
-[ext_resource type="Texture2D" uid="uid://dpw6ix6hm6awa" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_63.png" id="5_orc8y"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ngfxe"]
-size = Vector2(31, 29)
 
 [node name="Level" type="Node2D"]
 position = Vector2(1, 0)
@@ -30,22 +26,7 @@ position = Vector2(1, 0)
 tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 5, 0, 1, 0, 0, 0, 0, 0)
 tile_set = ExtResource("1_st0sc")
 
+[node name="puerta" parent="." instance=ExtResource("3_6hd8b")]
+
 [node name="personaje" parent="." instance=ExtResource("3_gist2")]
 position = Vector2(36, 306)
-
-[node name="Puerta" type="Node2D" parent="."]
-
-[node name="Area2D" type="Area2D" parent="Puerta"]
-position = Vector2(1, 1)
-script = ExtResource("4_qprr7")
-next_scene = "res://Interfaces/GameOver/game_over.tscn"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Puerta/Area2D"]
-position = Vector2(448.5, 46.5)
-shape = SubResource("RectangleShape2D_ngfxe")
-
-[node name="Puerta" type="Sprite2D" parent="Puerta/Area2D"]
-position = Vector2(448, 47)
-texture = ExtResource("5_orc8y")
-
-[connection signal="body_entered" from="Puerta/Area2D" to="Puerta/Area2D" method="_on_body_entered"]

@@ -97,3 +97,7 @@ func start_dash():
 	velocity.x = dash_speed * direction
 
 	animated_sprite.play("dash")
+
+
+func _on_puerta_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.

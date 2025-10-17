@@ -1,20 +1,34 @@
-[gd_scene load_steps=4 format=3 uid="uid://cimmsx3g38y0o"]
+[gd_scene load_steps=4 format=3 uid="uid://cexkktb7pq7ui"]
 
-[ext_resource type="Script" uid="uid://b7cku2wptlaka" path="res://puerta.gd" id="1_uqnal"]
-[ext_resource type="Texture2D" uid="uid://cftbsj4o8cpo7" path="res://editable-pixel-art-closed-modern-space-door-illustration-for-game-development-game-assets-poster-graphic-design-website-assets-vector.png" id="2_uqnal"]
+[ext_resource type="Texture2D" uid="uid://cftbsj4o8cpo7" path="res://editable-pixel-art-closed-modern-space-door-illustration-for-game-development-game-assets-poster-graphic-design-website-assets-vector.png" id="1_bek8y"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6uwi1"]
+[sub_resource type="GDScript" id="GDScript_8gvf5"]
+script/source = "extends Area2D
+
+@export var next_scene: String
+
+func _process(delta):
+	pass
+	
+
+func _on_body_entered(body):
+	if body.name == \"personaje\":
+		change_scene()
+
+func change_scene():
+	get_tree().change_scene_to_file(next_scene)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1h0p7"]
 size = Vector2(50.5, 41)
 
-[node name="puerta" type="Node2D"]
-script = ExtResource("1_uqnal")
+[node name="puerta" type="Area2D"]
+script = SubResource("GDScript_8gvf5")
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="IndustrialTile63" type="Sprite2D" parent="Area2D"]
+[node name="IndustrialTile63" type="Sprite2D" parent="."]
 scale = Vector2(0.36749998, 0.345)
-texture = ExtResource("2_uqnal")
+texture = ExtResource("1_bek8y")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.25, 4.5)
-shape = SubResource("RectangleShape2D_6uwi1")
+shape = SubResource("RectangleShape2D_1h0p7")
