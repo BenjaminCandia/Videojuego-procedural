@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://6r1yphd42iah"]
+
+[ext_resource type="Texture2D" uid="uid://btxklbd7f1qil" path="res://Interfaces/HUD/HUD2.png" id="1_8lr3p"]
+[ext_resource type="Script" uid="uid://cdg6liyh0511c" path="res://Interfaces/HUD/hud.gd" id="1_p1ue2"]
+[ext_resource type="FontFile" uid="uid://0cwcdt46ru17" path="res://Sprites Proyecto/10 Font/CyberpunkCraftpixPixel.otf" id="2_p1ue2"]
+
+[sub_resource type="Theme" id="Theme_8lr3p"]
+RichTextLabel/colors/default_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Theme" id="Theme_p1ue2"]
+RichTextLabel/colors/default_color = Color(1, 1, 1, 1)
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_p1ue2")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -202.0
+offset_top = 16.0
+offset_right = -21.0
+offset_bottom = 54.0
+grow_horizontal = 0
+texture = ExtResource("1_8lr3p")
+expand_mode = 1
+
+[node name="Cronometro" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_left = 473.0
+offset_top = 26.0
+offset_right = 525.0
+offset_bottom = 44.0
+theme = SubResource("Theme_8lr3p")
+theme_override_fonts/normal_font = ExtResource("2_p1ue2")
+theme_override_font_sizes/normal_font_size = 15
+bbcode_enabled = true
+text = "00:00"
+
+[node name="Monedas" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_left = 570.0
+offset_top = 26.0
+offset_right = 630.0
+offset_bottom = 50.0
+theme = SubResource("Theme_p1ue2")
+theme_override_fonts/normal_font = ExtResource("2_p1ue2")
+theme_override_font_sizes/normal_font_size = 15
+bbcode_enabled = true
+text = "000"

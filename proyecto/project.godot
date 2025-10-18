@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="Proyecto"
+run/main_scene="uid://5vpjg7w5blky"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://Scripts/Global.gd"
+Hud="*res://Interfaces/HUD/hud.gd"
 
 [display]
 
@@ -21,6 +27,10 @@ window/size/viewport_height=360
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
+
+[gui]
+
+theme/custom_font="uid://0cwcdt46ru17"
 
 [input]
 
