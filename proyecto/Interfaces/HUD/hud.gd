@@ -1,38 +1,39 @@
 extends CanvasLayer
 
-# Carga la escena del HUD
-var hud_scene = preload("res://Interfaces/HUD/HUD.tscn")
-
-var instance
-
-var coins_label
-var time_label
-
-var elapsed_time := 0.0
+@onready var coins_label = $Control/Monedas
+@onready var time_label = $Control/Cronometro
 
 func _ready():
-	# Instancia HUD
-	instance = hud_scene.instantiate()
-	get_tree().current_scene.add_child(instance)
+	# Detecta cambios de escena
+	get_tree().connect("scene_changed", Callable(self, "_on_scene_changed"))
+	call_deferred("_on_scene_changed", get_tree().current_scene)
 
-	# Referencias a los labels
-	var control = instance.get_node("Control")
-	coins_label = control.get_node("Monedas")
-	time_label = control.get_node("Cronometro")
+func _on_scene_changed(new_scene = null):
+	if not new_scene:
+		new_scene = get_tree().current_scene
+	if not new_scene:
+		return
 
-	update_coins()  
+	var name = new_scene.name.to_lower()
+	var hide_scenes := ["mainmenu", "game_over", "opciones"]
 
-	# 🔹 Activa _process ahora que los labels existen
-	set_process(true)
+	if name in hide_scenes:
+		visible = false
+		Global.stop_timer()
+	else:
+		visible = true
+		Global.start_timer()
+		update_coins()
 
 func _process(delta):
-	if not time_label:
-		return  # 🔹 Protege contra null
-	elapsed_time += delta
-	var minutes = int(elapsed_time) / 60
-	var seconds = int(elapsed_time) % 60
-	time_label.text = "[center][color=#ffffff]%02d:%02d[/color][/center]" % [minutes, seconds]
+	if not visible or not Global.timer_running:
+		return
+
+	Global.elapsed_time += delta
+	var minutes = int(Global.elapsed_time / 60)
+	var seconds = int(Global.elapsed_time) % 60
+	time_label.text = "%02d:%02d" % [minutes, seconds]
 
 func update_coins():
 	if coins_label:
-		coins_label.text = "[center][color=#ffffff]%d[/color][/center]" % Global.coins_total
+		coins_label.text = str(Global.coins_total)

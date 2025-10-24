@@ -18,7 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Global="*res://Scripts/Global.gd"
-Hud="*res://Interfaces/HUD/hud.gd"
+Hud="*res://Interfaces/HUD/HUD.tscn"
 
 [display]
 

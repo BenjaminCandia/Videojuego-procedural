@@ -1,20 +1,39 @@
-
 extends Node2D
 
-@onready var hud = $HUD  # tu HUD con monedas y cronómetro
+@export var next_scene_path: String = "res://Niveles/nivel_2.tscn"
+@onready var puerta = $puerta
+# @onready var nivel_superado_ui = $NivelSuperadoUI
 
 func _ready():
-	$Puerta.connect("body_entered", Callable(self, "_on_Puerta_body_entered"))
+	puerta.connect("body_entered", Callable(self, "_on_puerta_body_entered"))
+	# if nivel_superado_ui:
+	#     nivel_superado_ui.visible = false
 
-
-func _on_body_entered(body):
+func _on_puerta_body_entered(body: Node) -> void:
 	if body.is_in_group("Player"):
+		# Evita activaciones repetidas
+		puerta.set_deferred("monitoring", false)
+		puerta.set_deferred("monitorable", false)
+
+		# Suma moneda y actualiza HUD
 		Global.award_coin()
-		$HUD.update_coins()
-		$NivelSuperadoUI.visible = true
-		get_tree().change_scene_to_file("res://Niveles/nivel_2.tscn")
-		get_tree().paused = true   # Pausa el juego mientras está el menú
+		Hud.update_coins()
 
+		# Guarda tiempo en memoria
+		var level_name = self.name
+		Global.save_level_time(level_name, Global.elapsed_time)
 
-func _on_puerta_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.
+		# Muestra UI
+		# if nivel_superado_ui:
+		#     nivel_superado_ui.visible = true
+
+		# Cambia de nivel tras 1.5 segundos
+		var timer = Timer.new()
+		add_child(timer)
+		timer.wait_time = 1.5
+		timer.one_shot = true
+		timer.connect("timeout", Callable(self, "_on_timer_timeout").bind(next_scene_path))
+		timer.start()
+
+func _on_timer_timeout(next_scene_path):
+	get_tree().call_deferred("change_scene_to_file", next_scene_path)
