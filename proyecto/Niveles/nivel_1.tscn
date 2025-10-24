@@ -124,7 +124,7 @@ position = Vector2(582, 69)
 next_scene = "res://Niveles/nivel_2.tscn"
 
 [node name="personaje" parent="." instance=ExtResource("6_sgxf1")]
-position = Vector2(42, 321)
+position = Vector2(40, 327)
 dash_speed = 500.0
 dash_cooldown = 0.4
 
