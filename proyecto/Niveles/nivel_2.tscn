@@ -120,7 +120,7 @@ tile_set = SubResource("TileSet_o7sk5")
 position = Vector2(64, 69)
 next_scene = "res://Niveles/nivel_3.tscn"
 
-[node name="personaje" parent="." instance=ExtResource("6_kvgko")]
+[node name="personaje" parent="." groups=["Player"] instance=ExtResource("6_kvgko")]
 position = Vector2(40, 325)
 
 [connection signal="body_entered" from="puerta" to="puerta" method="_on_body_entered"]
