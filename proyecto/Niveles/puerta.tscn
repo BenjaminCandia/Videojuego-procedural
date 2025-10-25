@@ -7,13 +7,30 @@ script/source = "extends Area2D
 
 @export var next_scene: String
 
-func _process(delta):
-	pass
-	
+func _ready():
+	monitoring = true
+	monitorable = true
+	if not is_connected(\"body_entered\", Callable(self, \"_on_body_entered\")):
+		connect(\"body_entered\", Callable(self, \"_on_body_entered\"))
 
-func _on_body_entered(body):
-	if body.name == \"personaje\":
-		change_scene()
+func _on_body_entered(body: Node):
+	if body.is_in_group(\"Player\"):
+		print(\"✅ Player detectado en Nivel 2 → SUMANDO MONEDA\")
+
+		# Sumar moneda
+		Global.award_coin()
+		Hud.update_coins()
+
+		# Guardar tiempo del nivel
+		var level_name = get_tree().current_scene.name
+		Global.save_level_time(level_name, Global.elapsed_time)
+
+		# Evitar múltiples activaciones
+		set_deferred(\"monitoring\", false)
+		set_deferred(\"monitorable\", false)
+
+		# Cambio de escena seguro
+		get_tree().call_deferred(\"change_scene_to_file\", next_scene)
 
 func change_scene():
 	get_tree().change_scene_to_file(next_scene)
