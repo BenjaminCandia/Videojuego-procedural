@@ -18,7 +18,7 @@ func start_timer():
 func stop_timer():
 	timer_running = false
 
-# Guarda tiempo de nivel (opcional si quieres histórico)
+# Guarda tiempo de nivel (opcional)
 var level_times := {}
 func save_level_time(level_name: String, time: float):
 	level_times[level_name] = time
