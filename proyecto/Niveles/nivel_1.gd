@@ -5,7 +5,11 @@ extends Node2D
 # @onready var nivel_superado_ui = $NivelSuperadoUI
 
 func _ready():
-	puerta.connect("body_entered", Callable(self, "_on_puerta_body_entered"))
+	if puerta != null:
+		puerta.connect("body_entered", Callable(self, "_on_puerta_body_entered"))
+	else:
+		push_error("Nodo 'puerta' no encontrado en la escena")
+
 	# if nivel_superado_ui:
 	#     nivel_superado_ui.visible = false
 

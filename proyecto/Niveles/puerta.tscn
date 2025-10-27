@@ -15,7 +15,6 @@ func _ready():
 
 func _on_body_entered(body: Node):
 	if body.is_in_group(\"Player\"):
-		print(\"✅ Player detectado en Nivel 2 → SUMANDO MONEDA\")
 
 		# Sumar moneda
 		Global.award_coin()

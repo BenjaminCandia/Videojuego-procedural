@@ -121,7 +121,7 @@ tile_set = SubResource("TileSet_m401e")
 
 [node name="puerta" parent="." instance=ExtResource("12_akywv")]
 position = Vector2(582, 69)
-next_scene = "res://Niveles/nivel_2.tscn"
+next_scene = "res://Niveles/nivel_1.tres"
 
 [node name="personaje" parent="." groups=["Player"] instance=ExtResource("6_sgxf1")]
 position = Vector2(42, 321)

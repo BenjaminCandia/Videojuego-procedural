@@ -2,29 +2,32 @@ extends Area2D
 
 @export var next_scene: String
 
-func _on_body_entered(body):
+func _ready():
+	if not next_scene:
+		push_error("next_scene no está asignado en la puerta")
+
+func _on_body_entered(body: Node):
 	if body == null:
 		return
-
 
 	if body.is_in_group("Player"):
 		# Evitar activaciones repetidas
 		set_deferred("monitoring", false)
 		set_deferred("monitorable", false)
 
-		# Suma moneda y actualiza HUD 
-		Global.award_coin()
-		Hud.update_coins()
+		# Sumar moneda y actualizar HUD
+		if Global.has_method("award_coin"):
+			Global.award_coin()
+		if Hud.has_method("update_coins"):
+			Hud.update_coins()
 
-		# Guardar tiempo usando el singleton Global 
-
-		# Suma moneda y actualiza HUD (asumiendo que Global y Hud son autoloads)
-		Global.award_coin()
-		Hud.update_coins()
-
-		# Guardar tiempo usando el singleton Global (más consistente)
+		# Guardar tiempo del nivel
 		var level_name = get_tree().current_scene.name
-		Global.save_level_time(level_name, Global.elapsed_time)
+		if Global.has_method("save_level_time"):
+			Global.save_level_time(level_name, Global.elapsed_time)
 
-		# Cambiar de escena de forma diferida para evitar errores durante la señal
-		get_tree().call_deferred("change_scene_to_file", next_scene)
+		# Cambiar de escena
+		if next_scene != "":
+			get_tree().call_deferred("change_scene_to_file", next_scene)
+		else:
+			push_error("next_scene está vacío, no se puede cambiar de escena")
