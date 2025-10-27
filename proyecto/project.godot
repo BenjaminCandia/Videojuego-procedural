@@ -10,14 +10,17 @@ config_version=5
 
 [application]
 
-config/name="Proyecto"
+config/name="Cyber Escape"
+run/main_scene="uid://b5fnjob4ue7w1"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0, 0, 0, 1)
+config/icon="uid://b8msdrn5pn65u"
 
 [display]
 
 window/size/viewport_width=640
 window/size/viewport_height=360
+window/size/mode=3
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"

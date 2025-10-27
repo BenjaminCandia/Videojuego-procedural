@@ -1,9 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://b33mmxlw6v4o5"]
+[gd_scene load_steps=24 format=3 uid="uid://b33mmxlw6v4o5"]
 
 [ext_resource type="Script" uid="uid://i1emtkeh44tb" path="res://Personaje/personaje.gd" id="1_rbp53"]
-[ext_resource type="Texture2D" uid="uid://dhlx6wjys8i2o" path="res://Sprites Proyecto/sprites del personajes/Jump1.png" id="2_rbp53"]
-[ext_resource type="Texture2D" uid="uid://br8fj1cyik804" path="res://Sprites Proyecto/sprites del personajes/Run1.png" id="3_lr5g2"]
-[ext_resource type="Texture2D" uid="uid://ie075bpgtinj" path="res://Sprites Proyecto/sprites del personajes/Idle1.png" id="4_t148j"]
+[ext_resource type="Texture2D" uid="uid://8tf73cc7bd3v" path="res://Sprites Proyecto/sprites personajes/Biker_jump.png" id="2_rbp53"]
+[ext_resource type="Texture2D" uid="uid://cl1nco7tbgkih" path="res://Sprites Proyecto/sprites personajes/Biker_run.png" id="3_lr5g2"]
+[ext_resource type="Texture2D" uid="uid://dshgultf0avi5" path="res://Sprites Proyecto/sprites personajes/Biker_idle.png" id="4_t148j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7bkg0"]
 atlas = ExtResource("2_rbp53")
@@ -36,6 +36,10 @@ region = Rect2(192, 0, 48, 48)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ea8co"]
 atlas = ExtResource("3_lr5g2")
 region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rbp53"]
+atlas = ExtResource("3_lr5g2")
+region = Rect2(96, 0, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q6731"]
 atlas = ExtResource("4_t148j")
@@ -107,6 +111,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_rbp53")
+}],
+"loop": true,
+"name": &"dash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_q6731")
 }, {
 "duration": 1.0,
@@ -145,13 +157,15 @@ radius = 7.0
 height = 28.0
 
 [node name="personaje" type="CharacterBody2D"]
+position = Vector2(-3, 0)
 script = ExtResource("1_rbp53")
 dash_speed = 400.0
 dash_duration = 0.1
+dash_cooldown = 0.4
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c3rv3")
-animation = &"estatico"
+animation = &"dash"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)

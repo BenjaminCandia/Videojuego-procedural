@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://kaqkh6e6u3w"]
+[gd_scene load_steps=26 format=4 uid="uid://kaqkh6e6u3w"]
 
 [ext_resource type="Script" uid="uid://cuy62584suubg" path="res://Niveles/nivel_1.gd" id="1_sujdu"]
 [ext_resource type="Texture2D" uid="uid://d8ie2uup3eym" path="res://Sprites Proyecto/2 Background/Background.png" id="2_jv5s5"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dpw6ix6hm6awa" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_63.png" id="10_yp0ur"]
 [ext_resource type="PackedScene" uid="uid://cexkktb7pq7ui" path="res://Niveles/puerta.tscn" id="11_sujdu"]
 [ext_resource type="PackedScene" uid="uid://b33mmxlw6v4o5" path="res://Personaje/personaje.tscn" id="12_cseun"]
+[ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="13_jv5s5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_akywv"]
 texture = ExtResource("3_gijys")
@@ -106,6 +107,42 @@ sources/5 = SubResource("TileSetAtlasSource_2yoon")
 sources/6 = SubResource("TileSetAtlasSource_xia6m")
 sources/7 = SubResource("TileSetAtlasSource_8c8mk")
 
+[sub_resource type="Animation" id="Animation_vcw4o"]
+resource_name = "Cambio de escena"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ti5ux"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_20ptu"]
+_data = {
+&"Cambio de escena": SubResource("Animation_vcw4o"),
+&"RESET": SubResource("Animation_ti5ux")
+}
+
 [node name="Nivel 3" type="Node2D"]
 script = ExtResource("1_sujdu")
 
@@ -124,5 +161,16 @@ next_scene = "res://Niveles/nivel_4.tscn"
 
 [node name="personaje" parent="." instance=ExtResource("12_cseun")]
 position = Vector2(41, 39)
+
+[node name="Negro" type="Sprite2D" parent="."]
+position = Vector2(346, 176)
+scale = Vector2(1.9903381, 1.1636362)
+texture = ExtResource("13_jv5s5")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Negro"]
+libraries = {
+&"": SubResource("AnimationLibrary_20ptu")
+}
+autoplay = "Cambio de escena"
 
 [connection signal="body_entered" from="puerta" to="puerta" method="_on_body_entered"]
