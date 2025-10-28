@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://cmpbrskdde4ua"]
+[gd_scene load_steps=26 format=4 uid="uid://cmpbrskdde4ua"]
 
 [ext_resource type="Script" uid="uid://cuy62584suubg" path="res://Niveles/nivel_1.gd" id="1_m401e"]
 [ext_resource type="Texture2D" uid="uid://d8ie2uup3eym" path="res://Sprites Proyecto/2 Background/Background.png" id="1_rhy5s"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://fxvufqs12nvw" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_36.png" id="8_m401e"]
 [ext_resource type="Texture2D" uid="uid://dpw6ix6hm6awa" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_63.png" id="9_5drqo"]
 [ext_resource type="PackedScene" uid="uid://cexkktb7pq7ui" path="res://Niveles/puerta.tscn" id="12_akywv"]
+[ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="13_wsubd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_akywv"]
 texture = ExtResource("2_yx6ie")
@@ -106,11 +107,47 @@ sources/5 = SubResource("TileSetAtlasSource_2yoon")
 sources/6 = SubResource("TileSetAtlasSource_xia6m")
 sources/7 = SubResource("TileSetAtlasSource_8c8mk")
 
+[sub_resource type="Animation" id="Animation_vcw4o"]
+resource_name = "Cambio de escena"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ti5ux"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_20ptu"]
+_data = {
+&"Cambio de escena": SubResource("Animation_vcw4o"),
+&"RESET": SubResource("Animation_ti5ux")
+}
+
 [node name="Nivel 1" type="Node2D"]
 script = ExtResource("1_m401e")
 
 [node name="Background" type="Sprite2D" parent="."]
-position = Vector2(312, 174.49997)
+position = Vector2(313, 174.49997)
 scale = Vector2(1.138889, 1.1450617)
 texture = ExtResource("1_rhy5s")
 
@@ -127,5 +164,18 @@ next_scene = "res://Niveles/nivel_1.tres"
 position = Vector2(42, 321)
 dash_speed = 600.0
 dash_duration = 0.2
+position = Vector2(578, 75)
+next_scene = "res://Niveles/nivel_2.tscn"
+
+[node name="Negro" type="Sprite2D" parent="."]
+position = Vector2(322, 199)
+scale = Vector2(1.9903381, 1.1636362)
+texture = ExtResource("13_wsubd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Negro"]
+libraries = {
+&"": SubResource("AnimationLibrary_20ptu")
+}
+autoplay = "Cambio de escena"
 
 [connection signal="body_entered" from="puerta" to="puerta" method="_on_body_entered"]

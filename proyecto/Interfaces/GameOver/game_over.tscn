@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://3n2py23c1ym1"]
+[gd_scene load_steps=13 format=3 uid="uid://3n2py23c1ym1"]
 
 [ext_resource type="FontFile" uid="uid://0cwcdt46ru17" path="res://Sprites Proyecto/10 Font/CyberpunkCraftpixPixel.otf" id="1_0l4mk"]
 [ext_resource type="Script" uid="uid://oj186bkex2yn" path="res://Interfaces/GameOver/game_over.gd" id="1_wx1p7"]
 [ext_resource type="Script" uid="uid://d4mdiea8xjsl5" path="res://Interfaces/menus/custom_button.gd" id="2_wx1p7"]
 [ext_resource type="PackedScene" uid="uid://ddudvvb6f0lnu" path="res://Interfaces/menus/MainMenu/parallax_background.tscn" id="4_8xp8w"]
 [ext_resource type="Texture2D" uid="uid://n1mpfxl4usll" path="res://Interfaces/ciudad.png" id="5_ug5r6"]
+[ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="6_ug5r6"]
 
 [sub_resource type="Theme" id="Theme_a02ig"]
 default_font = ExtResource("1_0l4mk")
@@ -15,6 +16,42 @@ default_font_size = 20
 
 [sub_resource type="Theme" id="Theme_ug5r6"]
 default_font_size = 20
+
+[sub_resource type="Animation" id="Animation_vcw4o"]
+resource_name = "Cambio de escena"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ti5ux"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_20ptu"]
+_data = {
+&"Cambio de escena": SubResource("Animation_vcw4o"),
+&"RESET": SubResource("Animation_ti5ux")
+}
 
 [node name="GameOver" type="Control"]
 layout_mode = 3
@@ -71,5 +108,16 @@ z_index = -500
 position = Vector2(320.43747, 185.18758)
 scale = Vector2(0.4291178, 0.36877424)
 texture = ExtResource("5_ug5r6")
+
+[node name="Negro" type="Sprite2D" parent="."]
+position = Vector2(346, 176)
+scale = Vector2(1.9903381, 1.1636362)
+texture = ExtResource("6_ug5r6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Negro"]
+libraries = {
+&"": SubResource("AnimationLibrary_20ptu")
+}
+autoplay = "Cambio de escena"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/Volver" to="." method="_on_volver_pressed"]

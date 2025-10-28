@@ -10,10 +10,11 @@ config_version=5
 
 [application]
 
-config/name="Proyecto"
-run/main_scene="uid://5vpjg7w5blky"
+config/name="Cyber Escape"
+run/main_scene="uid://b5fnjob4ue7w1"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0, 0, 0, 1)
+config/icon="uid://b8msdrn5pn65u"
 
 [autoload]
 

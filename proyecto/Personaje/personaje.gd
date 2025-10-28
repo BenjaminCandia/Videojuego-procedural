@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var jump_speed: float = 350
 @export var coyote_time: float = 0.15
 @export var gravity: float = 950
-@export var dash_speed: float = 600
+@export var dash_speed: float 
 @export var dash_duration: float = 0.2
 @export var dash_cooldown: float = 0.5
 
@@ -17,6 +17,7 @@ var can_dash: bool = true
 var dash_timer: float = 0.0
 var dash_cooldown_timer: float = 0.0
 
+
 func _physics_process(delta):
 	# --- Dash cooldown ---
 	if dash_cooldown_timer > 0:
@@ -28,7 +29,7 @@ func _physics_process(delta):
 		if dash_timer <= 0 or is_on_wall():
 			is_dashing = false
 		move_and_slide()
-		return  # 🔹 Evita que el resto del movimiento se ejecute durante el dash
+		return  # Evita que el resto del movimiento se ejecute durante el dash
 
 	# --- Movimiento lateral ---
 	var input_axis = Input.get_axis("izquierda", "derecha")
@@ -41,7 +42,7 @@ func _physics_process(delta):
 	# --- Coyote time ---
 	if is_on_floor():
 		coyote_timer = coyote_time
-		can_dash = true  # 🔹 Recupera el dash al tocar el suelo
+		can_dash = true  # Recupera el dash al tocar el suelo
 	else:
 		coyote_timer -= delta
 
@@ -54,7 +55,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("dash") and can_dash and dash_cooldown_timer <= 0:
 		start_dash()
 
-	# --- Cambio de dirección (corregido) ---
+	# --- Cambio de dirección ---
 	if velocity.x > 0:
 		is_facing_right = true
 		animated_sprite.flip_h = false
@@ -63,16 +64,17 @@ func _physics_process(delta):
 		animated_sprite.flip_h = true
 
 	# --- Animaciones ---
-	if velocity.x != 0:
-		animated_sprite.play("correr")
-	else:
-		animated_sprite.play("estatico")
-
-	if not is_on_floor():
+	if is_dashing:
+		animated_sprite.play("dash")
+	elif not is_on_floor():
 		if velocity.y < 0:
 			animated_sprite.play("salto")
 		else:
 			animated_sprite.play("caida")
+	elif velocity.x != 0:
+		animated_sprite.play("correr")
+	else:
+		animated_sprite.play("estatico")
 
 	# --- Movimiento final ---
 	move_and_slide()
@@ -84,10 +86,10 @@ func start_dash():
 	dash_timer = dash_duration
 	dash_cooldown_timer = dash_cooldown
 
-	# 🔹 Cancela la gravedad y salto durante el dash
+	# Cancela la gravedad y salto durante el dash
 	velocity.y = 0
 
-	# 🔹 Si hay input, úsalo; si no, usa la dirección actual
+	# Si hay input, úsalo; si no, usa la dirección actual
 	var input_axis = Input.get_axis("izquierda", "derecha")
 	if input_axis != 0:
 		is_facing_right = input_axis > 0
@@ -96,6 +98,7 @@ func start_dash():
 	var direction = 1 if is_facing_right else -1
 	velocity.x = dash_speed * direction
 
+	# Reproduce la animación de dash
 	animated_sprite.play("dash")
 
 
