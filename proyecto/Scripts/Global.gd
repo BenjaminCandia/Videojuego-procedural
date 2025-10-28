@@ -8,6 +8,8 @@ var timer_running := false
 # Aumenta monedas
 func award_coin():
 	coins_total += 1
+	var caller = get_stack()[1].get("function", "unknown") if Engine.is_editor_hint() == false else "editor"
+	print("[COIN] Se otorgó una moneda. Total:", coins_total, " | Llamado desde:", caller)
 
 # Reinicia y activa cronómetro
 func start_timer():

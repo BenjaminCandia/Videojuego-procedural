@@ -1,6 +1,5 @@
-[gd_scene load_steps=26 format=4 uid="uid://kaqkh6e6u3w"]
+[gd_scene load_steps=25 format=4 uid="uid://kaqkh6e6u3w"]
 
-[ext_resource type="Script" uid="uid://cuy62584suubg" path="res://Niveles/nivel_1.gd" id="1_sujdu"]
 [ext_resource type="Texture2D" uid="uid://d8ie2uup3eym" path="res://Sprites Proyecto/2 Background/Background.png" id="2_jv5s5"]
 [ext_resource type="Texture2D" uid="uid://dtk3jeexpn1pi" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_04.png" id="3_gijys"]
 [ext_resource type="Texture2D" uid="uid://vaf034e4vmbo" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_05.png" id="4_4378v"]
@@ -144,7 +143,6 @@ _data = {
 }
 
 [node name="Nivel 3" type="Node2D"]
-script = ExtResource("1_sujdu")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(312.25, 171.49997)
@@ -163,6 +161,7 @@ next_scene = "res://Niveles/nivel_4.tscn"
 position = Vector2(41, 39)
 
 [node name="Negro" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(323, 187.00003)
 scale = Vector2(1.9903381, 1.1636362)
 texture = ExtResource("13_jv5s5")

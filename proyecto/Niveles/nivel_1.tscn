@@ -157,18 +157,15 @@ tile_map_data = PackedByteArray("AAAAABAAAwABAAAAAAAAAA4AAwABAAAAAAAAAA8AAwABAAE
 tile_set = SubResource("TileSet_m401e")
 
 [node name="puerta" parent="." instance=ExtResource("12_akywv")]
-position = Vector2(582, 69)
-next_scene = "res://Niveles/nivel_1.tres"
+position = Vector2(580, 74)
+next_scene = "res://Niveles/nivel_2.tres"
 
 [node name="personaje" parent="." groups=["Player"] instance=ExtResource("6_sgxf1")]
-position = Vector2(42, 321)
-dash_speed = 600.0
-dash_duration = 0.2
-position = Vector2(578, 75)
-next_scene = "res://Niveles/nivel_2.tscn"
+position = Vector2(37, 327)
 
 [node name="Negro" type="Sprite2D" parent="."]
-position = Vector2(322, 199)
+visible = false
+position = Vector2(326, 191.99998)
 scale = Vector2(1.9903381, 1.1636362)
 texture = ExtResource("13_wsubd")
 
