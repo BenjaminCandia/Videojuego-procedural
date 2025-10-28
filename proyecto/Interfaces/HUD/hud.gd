@@ -15,7 +15,7 @@ func _on_scene_changed(new_scene = null):
 		return
 
 	var name = new_scene.name.to_lower()
-	var hide_scenes := ["mainmenu", "game_over", "opciones"]
+	var hide_scenes := ["mainmenu", "gameover", "opciones"]
 
 	if name in hide_scenes:
 		visible = false
