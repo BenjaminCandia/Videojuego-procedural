@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=4 uid="uid://cn8utauy3nakx"]
+[gd_scene load_steps=5 format=4 uid="uid://bq20swnvum4fe"]
 
 [ext_resource type="PackedScene" uid="uid://b33mmxlw6v4o5" path="res://Personaje/personaje.tscn" id="1_khoc6"]
 [ext_resource type="Texture2D" uid="uid://vaf034e4vmbo" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_05.png" id="2_tj2e4"]

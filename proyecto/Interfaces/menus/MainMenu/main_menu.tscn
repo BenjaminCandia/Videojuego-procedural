@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b5fnjob4ue7w1"]
+[gd_scene load_steps=14 format=3 uid="uid://b5fnjob4ue7w1"]
 
 [ext_resource type="FontFile" uid="uid://0cwcdt46ru17" path="res://Sprites Proyecto/10 Font/CyberpunkCraftpixPixel.otf" id="1_0cuu7"]
 [ext_resource type="Script" uid="uid://ccee6685paf3q" path="res://Interfaces/menus/MainMenu/main_menu.gd" id="1_w8iid"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dxgk0emb0ahuq" path="res://custom_button.gd" id="4_dqc4t"]
 [ext_resource type="Texture2D" uid="uid://n1mpfxl4usll" path="res://Interfaces/ciudad.png" id="5_ol0y6"]
 [ext_resource type="PackedScene" uid="uid://ddudvvb6f0lnu" path="res://Interfaces/menus/MainMenu/parallax_background.tscn" id="5_qbkh8"]
+[ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="7_mq1uo"]
 
 [sub_resource type="Theme" id="Theme_4q22r"]
 MarginContainer/constants/margin_bottom = 10
@@ -19,6 +20,42 @@ default_font_size = 30
 
 [sub_resource type="Theme" id="Theme_8k1ht"]
 default_font_size = 16
+
+[sub_resource type="Animation" id="Animation_vcw4o"]
+resource_name = "Cambio de escena"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ti5ux"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_20ptu"]
+_data = {
+&"Cambio de escena": SubResource("Animation_vcw4o"),
+&"RESET": SubResource("Animation_ti5ux")
+}
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -72,9 +109,20 @@ text = "EXIT"
 
 [node name="Ciudad" type="Sprite2D" parent="ParallaxBackground"]
 z_index = -500
-position = Vector2(240, 139)
-scale = Vector2(0.32194, 0.283691)
+position = Vector2(321.37506, 183.87509)
+scale = Vector2(0.42789713, 0.37133765)
 texture = ExtResource("5_ol0y6")
+
+[node name="Negro" type="Sprite2D" parent="."]
+position = Vector2(346, 176)
+scale = Vector2(1.9903381, 1.1636362)
+texture = ExtResource("7_mq1uo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Negro"]
+libraries = {
+&"": SubResource("AnimationLibrary_20ptu")
+}
+autoplay = "Cambio de escena"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/Options" to="." method="_on_options_pressed"]

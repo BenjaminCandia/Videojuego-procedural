@@ -1,18 +1,50 @@
-[gd_scene load_steps=4 format=3 uid="uid://cimmsx3g38y0o"]
+[gd_scene load_steps=4 format=3 uid="uid://cexkktb7pq7ui"]
 
-[ext_resource type="Script" uid="uid://b7cku2wptlaka" path="res://puerta.gd" id="1_uqnal"]
-[ext_resource type="Texture2D" uid="uid://dpw6ix6hm6awa" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_63.png" id="2_nyv7f"]
+[ext_resource type="Texture2D" uid="uid://cftbsj4o8cpo7" path="res://editable-pixel-art-closed-modern-space-door-illustration-for-game-development-game-assets-poster-graphic-design-website-assets-vector.png" id="1_bek8y"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6uwi1"]
-size = Vector2(31, 31)
+[sub_resource type="GDScript" id="GDScript_8gvf5"]
+script/source = "extends Area2D
 
-[node name="puerta" type="Node2D"]
-script = ExtResource("1_uqnal")
+@export var next_scene: String
 
-[node name="Area2D" type="Area2D" parent="."]
+func _ready():
+	monitoring = true
+	monitorable = true
+	if not is_connected(\"body_entered\", Callable(self, \"_on_body_entered\")):
+		connect(\"body_entered\", Callable(self, \"_on_body_entered\"))
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_6uwi1")
+func _on_body_entered(body: Node):
+	if body.is_in_group(\"Player\"):
 
-[node name="IndustrialTile63" type="Sprite2D" parent="Area2D"]
-texture = ExtResource("2_nyv7f")
+		# Sumar moneda
+		Global.award_coin()
+		Hud.update_coins()
+
+		# Guardar tiempo del nivel
+		var level_name = get_tree().current_scene.name
+		Global.save_level_time(level_name, Global.elapsed_time)
+
+		# Evitar múltiples activaciones
+		set_deferred(\"monitoring\", false)
+		set_deferred(\"monitorable\", false)
+
+		# Cambio de escena seguro
+		get_tree().call_deferred(\"change_scene_to_file\", next_scene)
+
+func change_scene():
+	get_tree().change_scene_to_file(next_scene)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1h0p7"]
+size = Vector2(43, 33.5)
+
+[node name="puerta" type="Area2D"]
+script = SubResource("GDScript_8gvf5")
+
+[node name="IndustrialTile63" type="Sprite2D" parent="."]
+scale = Vector2(0.28124997, 0.28)
+texture = ExtResource("1_bek8y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 3.75)
+shape = SubResource("RectangleShape2D_1h0p7")
