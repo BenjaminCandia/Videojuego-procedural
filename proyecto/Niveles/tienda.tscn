@@ -1,7 +1,7 @@
 [gd_scene load_steps=31 format=4 uid="uid://gglm3n8qd5gq"]
 
 [ext_resource type="Script" uid="uid://cuy62584suubg" path="res://Niveles/nivel_1.gd" id="1_025t1"]
-[ext_resource type="Texture2D" uid="uid://cg4a003fkiron" path="res://Interfaces/shop8.jpg" id="2_7se7v"]
+[ext_resource type="Texture2D" uid="uid://cg4a003fkiron" path="res://Interfaces/shop.jpg" id="2_7se7v"]
 [ext_resource type="Texture2D" uid="uid://dtk3jeexpn1pi" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_04.png" id="3_bcepf"]
 [ext_resource type="Texture2D" uid="uid://vaf034e4vmbo" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_05.png" id="4_7se7v"]
 [ext_resource type="Texture2D" uid="uid://ct88ajq6wruvn" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_21.png" id="5_bcepf"]
