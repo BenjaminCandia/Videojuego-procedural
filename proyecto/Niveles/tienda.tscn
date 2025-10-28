@@ -156,7 +156,7 @@ tile_map_data = PackedByteArray("AAAAAA4AAwABAAAAAAAAAA8AAwABAAEAAAAAAA0AAwABAAE
 tile_set = SubResource("TileSet_cg4y5")
 
 [node name="puerta" parent="." instance=ExtResource("14_7se7v")]
-position = Vector2(572, 325)
+position = Vector2(574, 331)
 next_scene = "res://procedural/level.tscn"
 
 [node name="personaje" parent="." instance=ExtResource("13_rek2n")]

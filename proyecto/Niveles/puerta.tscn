@@ -20,15 +20,15 @@ func change_scene():
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1h0p7"]
-size = Vector2(50.5, 41)
+size = Vector2(43, 33.5)
 
 [node name="puerta" type="Area2D"]
 script = SubResource("GDScript_8gvf5")
 
 [node name="IndustrialTile63" type="Sprite2D" parent="."]
-scale = Vector2(0.36749998, 0.345)
+scale = Vector2(0.28124997, 0.28)
 texture = ExtResource("1_bek8y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.25, 4.5)
+position = Vector2(0.5, 3.75)
 shape = SubResource("RectangleShape2D_1h0p7")

@@ -157,14 +157,14 @@ tile_map_data = PackedByteArray("AAAAAA4AAwABAAAAAAAAAA8AAwABAAEAAAAAAA0AAwABAAE
 tile_set = SubResource("TileSet_m401e")
 
 [node name="puerta" parent="." instance=ExtResource("11_br4hw")]
-position = Vector2(61, 38)
+position = Vector2(59, 41)
 next_scene = "res://Interfaces/GameOver/game_over.tscn"
 
 [node name="personaje" parent="." instance=ExtResource("12_ybieh")]
 position = Vector2(40, 323)
 
 [node name="Negro" type="Sprite2D" parent="."]
-position = Vector2(346, 176)
+position = Vector2(315, 193)
 scale = Vector2(1.9903381, 1.1636362)
 texture = ExtResource("13_lfeih")
 

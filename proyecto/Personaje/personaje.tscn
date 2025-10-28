@@ -1,8 +1,9 @@
-[gd_scene load_steps=24 format=3 uid="uid://b33mmxlw6v4o5"]
+[gd_scene load_steps=28 format=3 uid="uid://b33mmxlw6v4o5"]
 
 [ext_resource type="Script" uid="uid://i1emtkeh44tb" path="res://Personaje/personaje.gd" id="1_rbp53"]
 [ext_resource type="Texture2D" uid="uid://8tf73cc7bd3v" path="res://Sprites Proyecto/sprites personajes/Biker_jump.png" id="2_rbp53"]
 [ext_resource type="Texture2D" uid="uid://cl1nco7tbgkih" path="res://Sprites Proyecto/sprites personajes/Biker_run.png" id="3_lr5g2"]
+[ext_resource type="Texture2D" uid="uid://dusbivllu5rxr" path="res://Sprites Proyecto/sprites personajes/image.png" id="4_lr5g2"]
 [ext_resource type="Texture2D" uid="uid://dshgultf0avi5" path="res://Sprites Proyecto/sprites personajes/Biker_idle.png" id="4_t148j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7bkg0"]
@@ -37,9 +38,21 @@ region = Rect2(192, 0, 48, 48)
 atlas = ExtResource("3_lr5g2")
 region = Rect2(240, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rbp53"]
-atlas = ExtResource("3_lr5g2")
+[sub_resource type="AtlasTexture" id="AtlasTexture_t148j"]
+atlas = ExtResource("4_lr5g2")
 region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ypcv4"]
+atlas = ExtResource("4_lr5g2")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aaexn"]
+atlas = ExtResource("4_lr5g2")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwphs"]
+atlas = ExtResource("4_lr5g2")
+region = Rect2(240, 0, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q6731"]
 atlas = ExtResource("4_t148j")
@@ -111,11 +124,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rbp53")
+"texture": SubResource("AtlasTexture_t148j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ypcv4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aaexn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uwphs")
 }],
 "loop": true,
 "name": &"dash",
-"speed": 5.0
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -166,6 +188,7 @@ dash_cooldown = 0.4
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c3rv3")
 animation = &"dash"
+frame_progress = 0.9752405
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 9)

@@ -154,14 +154,14 @@ tile_map_data = PackedByteArray("AAAAABAAAwABAAAAAAAAAA4AAwABAAAAAAAAAA8AAwABAAE
 tile_set = SubResource("TileSet_o7sk5")
 
 [node name="puerta" parent="." instance=ExtResource("10_kvgko")]
-position = Vector2(64, 69)
+position = Vector2(62, 74)
 next_scene = "res://Niveles/nivel_3.tscn"
 
 [node name="personaje" parent="." instance=ExtResource("6_kvgko")]
 position = Vector2(40, 325)
 
 [node name="Negro" type="Sprite2D" parent="."]
-position = Vector2(346, 176)
+position = Vector2(323, 567)
 scale = Vector2(1.9903381, 1.1636362)
 texture = ExtResource("12_8wgll")
 
