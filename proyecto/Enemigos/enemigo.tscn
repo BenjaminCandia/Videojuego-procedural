@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://cn4o5xf1iui63"]
+
+[ext_resource type="Script" uid="uid://b2yl76ow206wj" path="res://enemigo.gd" id="1_73ngn"]
+[ext_resource type="Texture2D" uid="uid://crjhugmvk5rei" path="res://Sprites Proyecto/Personaje tienda/1 Drones/3/Idle.png" id="2_8odsu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73ngn"]
+atlas = ExtResource("2_8odsu")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8odsu"]
+atlas = ExtResource("2_8odsu")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vju33"]
+atlas = ExtResource("2_8odsu")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwh7a"]
+atlas = ExtResource("2_8odsu")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0oy6f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73ngn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8odsu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vju33")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwh7a")
+}],
+"loop": true,
+"name": &"estatico",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tq3a4"]
+size = Vector2(34, 17)
+
+[node name="enemigo" type="CharacterBody2D"]
+script = ExtResource("1_73ngn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0oy6f")
+animation = &"estatico"
+frame_progress = 0.86772245
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_tq3a4")
