@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://3n2py23c1ym1"]
+[gd_scene load_steps=15 format=3 uid="uid://3n2py23c1ym1"]
 
 [ext_resource type="FontFile" uid="uid://0cwcdt46ru17" path="res://Sprites Proyecto/10 Font/CyberpunkCraftpixPixel.otf" id="1_0l4mk"]
 [ext_resource type="Script" uid="uid://oj186bkex2yn" path="res://Interfaces/GameOver/game_over.gd" id="1_wx1p7"]
@@ -12,9 +12,6 @@ default_font = ExtResource("1_0l4mk")
 default_font_size = 46
 
 [sub_resource type="Theme" id="Theme_8xp8w"]
-default_font_size = 20
-
-[sub_resource type="Theme" id="Theme_ug5r6"]
 default_font_size = 20
 
 [sub_resource type="Animation" id="Animation_vcw4o"]
@@ -53,6 +50,15 @@ _data = {
 &"RESET": SubResource("Animation_ti5ux")
 }
 
+[sub_resource type="Theme" id="Theme_s5gdk"]
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_2l40q"]
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_35gv1"]
+default_font_size = 40
+
 [node name="GameOver" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -76,10 +82,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "GAME OVER"
-
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -90,16 +92,8 @@ theme = SubResource("Theme_8xp8w")
 layout_mode = 2
 text = "¡TU PUNTAJE ES: 1000!"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
 layout_mode = 2
-size_flags_horizontal = 4
-theme = SubResource("Theme_ug5r6")
-
-[node name="Volver" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer"]
-layout_mode = 2
-text = "vOLVER"
-script = ExtResource("2_wx1p7")
-metadata/_custom_type_script = "uid://d4mdiea8xjsl5"
 
 [node name="ParallaxBackground" parent="." instance=ExtResource("4_8xp8w")]
 
@@ -121,4 +115,54 @@ libraries = {
 }
 autoplay = "Cambio de escena"
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/Volver" to="." method="_on_volver_pressed"]
+[node name="Guardar" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = 45.0
+offset_right = -19.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_s5gdk")
+text = " Guardar "
+
+[node name="Volver" type="Button" parent="."]
+layout_mode = 0
+offset_left = 347.0
+offset_top = 224.0
+offset_right = 458.0
+offset_bottom = 254.0
+size_flags_horizontal = 4
+theme = SubResource("Theme_2l40q")
+text = "vOLVER"
+script = ExtResource("2_wx1p7")
+metadata/_custom_type_script = "uid://d4mdiea8xjsl5"
+
+[node name="Label_GO" type="Label" parent="."]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 96.0
+offset_right = 555.0
+offset_bottom = 160.0
+theme = SubResource("Theme_35gv1")
+text = "Juego completado"
+
+[node name="DialogoGuardado" type="AcceptDialog" parent="."]
+transparent_bg = true
+oversampling_override = 1.0
+title = "Guardado"
+initial_position = 1
+size = Vector2i(337, 70)
+visible = true
+transparent = true
+ok_button_text = "OKAY"
+dialog_text = "¡Se ha guardado correctamente!"
+
+[connection signal="pressed" from="Volver" to="." method="_on_volver_pressed"]

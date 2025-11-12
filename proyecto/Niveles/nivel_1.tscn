@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://cmpbrskdde4ua"]
+[gd_scene load_steps=27 format=4 uid="uid://cmpbrskdde4ua"]
 
 [ext_resource type="Script" uid="uid://cuy62584suubg" path="res://Niveles/nivel_1.gd" id="1_m401e"]
 [ext_resource type="Texture2D" uid="uid://d8ie2uup3eym" path="res://Sprites Proyecto/2 Background/Background.png" id="1_rhy5s"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dpw6ix6hm6awa" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_63.png" id="9_5drqo"]
 [ext_resource type="PackedScene" uid="uid://cexkktb7pq7ui" path="res://Niveles/puerta.tscn" id="12_akywv"]
 [ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="13_wsubd"]
+[ext_resource type="PackedScene" uid="uid://d03c1jujdtepq" path="res://Interfaces/coin.tscn" id="14_7q7xn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_akywv"]
 texture = ExtResource("2_yx6ie")
@@ -174,5 +175,17 @@ libraries = {
 &"": SubResource("AnimationLibrary_20ptu")
 }
 autoplay = "Cambio de escena"
+
+[node name="Coin" parent="." instance=ExtResource("14_7q7xn")]
+position = Vector2(61, 115)
+
+[node name="Coin2" parent="." instance=ExtResource("14_7q7xn")]
+position = Vector2(179, 184)
+
+[node name="Coin3" parent="." instance=ExtResource("14_7q7xn")]
+position = Vector2(329, 277)
+
+[node name="Coin4" parent="." instance=ExtResource("14_7q7xn")]
+position = Vector2(447, 79)
 
 [connection signal="body_entered" from="puerta" to="puerta" method="_on_body_entered"]
