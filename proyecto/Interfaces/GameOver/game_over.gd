@@ -17,6 +17,10 @@ func _ready():
 	label_game_over.text = "Tu tiempo fue: " + str(int(round(total_time)))+ " segundos."
 	#label_game_over.text = "Has superado " + str(total_levels)+ " niveles."
 	# POST
+
+
+	if MusicManager:
+		MusicManager.stop()
 	send_post_request()
 	
 	
@@ -39,3 +43,4 @@ func _calculate_totals():
 	for value in Global.level_times.values():
 		total_time += value
 	total_levels = Global.level_times.size()
+	
