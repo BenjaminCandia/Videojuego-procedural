@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dpw6ix6hm6awa" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_63.png" id="10_yp0ur"]
 [ext_resource type="PackedScene" uid="uid://cexkktb7pq7ui" path="res://Niveles/puerta.tscn" id="11_sujdu"]
 [ext_resource type="PackedScene" uid="uid://b33mmxlw6v4o5" path="res://Personaje/personaje.tscn" id="12_cseun"]
-[ext_resource type="PackedScene" uid="uid://d03c1jujdtepq" path="res://Interfaces/coin.tscn" id="13_gijys"]
+[ext_resource type="PackedScene" uid="uid://cn4o5xf1iui63" path="res://Enemigos/enemigo.tscn" id="13_gijys"]
 [ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="13_jv5s5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_akywv"]
@@ -173,16 +173,10 @@ libraries = {
 }
 autoplay = "Cambio de escena"
 
-[node name="Coin" parent="." instance=ExtResource("13_gijys")]
-position = Vector2(180, 78)
+[node name="enemigo" parent="." instance=ExtResource("13_gijys")]
+position = Vector2(190, 323)
 
-[node name="Coin2" parent="." instance=ExtResource("13_gijys")]
-position = Vector2(41, 265)
-
-[node name="Coin3" parent="." instance=ExtResource("13_gijys")]
-position = Vector2(400, 200)
-
-[node name="Coin4" parent="." instance=ExtResource("13_gijys")]
-position = Vector2(446, 60)
+[node name="enemigo2" parent="." instance=ExtResource("13_gijys")]
+position = Vector2(492, 319)
 
 [connection signal="body_entered" from="puerta" to="puerta" method="_on_body_entered"]

@@ -20,6 +20,11 @@ func _ready():
 	dialogo_guardado.popup_centered()
 	dialogo_guardado.hide()
 
+	if MusicManager:
+		MusicManager.stop()
+	send_post_request()
+	
+
 func _on_guardar_pressed():
 	var player_name = name_input.text.strip_edges()
 	if player_name == "":
