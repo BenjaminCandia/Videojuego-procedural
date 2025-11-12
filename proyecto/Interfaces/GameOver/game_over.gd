@@ -22,8 +22,6 @@ func _ready():
 
 	if MusicManager:
 		MusicManager.stop()
-	send_post_request()
-	
 
 func _on_guardar_pressed():
 	var player_name = name_input.text.strip_edges()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://kaqkh6e6u3w"]
+[gd_scene load_steps=27 format=4 uid="uid://kaqkh6e6u3w"]
 
 [ext_resource type="Texture2D" uid="uid://d8ie2uup3eym" path="res://Sprites Proyecto/2 Background/Background.png" id="2_jv5s5"]
 [ext_resource type="Texture2D" uid="uid://dtk3jeexpn1pi" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_04.png" id="3_gijys"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://b33mmxlw6v4o5" path="res://Personaje/personaje.tscn" id="12_cseun"]
 [ext_resource type="PackedScene" uid="uid://cn4o5xf1iui63" path="res://Enemigos/enemigo.tscn" id="13_gijys"]
 [ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="13_jv5s5"]
+[ext_resource type="PackedScene" uid="uid://d03c1jujdtepq" path="res://Interfaces/coin.tscn" id="14_gijys"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_akywv"]
 texture = ExtResource("3_gijys")
@@ -178,5 +179,17 @@ position = Vector2(190, 323)
 
 [node name="enemigo2" parent="." instance=ExtResource("13_gijys")]
 position = Vector2(492, 319)
+
+[node name="Coin" parent="." instance=ExtResource("14_gijys")]
+position = Vector2(174, 78)
+
+[node name="Coin2" parent="." instance=ExtResource("14_gijys")]
+position = Vector2(292, 317)
+
+[node name="Coin3" parent="." instance=ExtResource("14_gijys")]
+position = Vector2(427, 319)
+
+[node name="Coin4" parent="." instance=ExtResource("14_gijys")]
+position = Vector2(446, 50)
 
 [connection signal="body_entered" from="puerta" to="puerta" method="_on_body_entered"]
