@@ -9,6 +9,10 @@ func _ready():
 		puerta.connect("body_entered", Callable(self, "_on_puerta_body_entered"))
 	else:
 		push_error("Nodo 'puerta' no encontrado en la escena")
+		
+	if MusicManager and not MusicManager.playing:
+		MusicManager.play()
+
 
 func _on_puerta_body_entered(body: Node) -> void:
 	if body.is_in_group("Player"):

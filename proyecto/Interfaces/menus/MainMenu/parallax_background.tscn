@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddudvvb6f0lnu"]
+[gd_scene load_steps=3 format=3 uid="uid://ddudvvb6f0lnu"]
 
 [ext_resource type="Script" uid="uid://c5m5bgi5d6axb" path="res://Interfaces/menus/MainMenu/parallax_background.gd" id="1_t4ks2"]
-[ext_resource type="Texture2D" uid="uid://bnfskkkuh4c1g" path="res://Interfaces/fondo2.png" id="3_27h0c"]
 [ext_resource type="Texture2D" uid="uid://b0tfjorb82y4q" path="res://Interfaces/fondo.png" id="3_tk2o8"]
 
 [node name="ParallaxBackground" type="ParallaxBackground"]
@@ -12,15 +11,6 @@ position = Vector2(0, -7)
 motion_mirroring = Vector2(1000, 1000)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
-
-[node name="fondo" type="Sprite2D" parent="ParallaxLayer"]
-visible = false
-texture_repeat = 2
-position = Vector2(676.5, 754)
-scale = Vector2(1.68625, 1.492)
-texture = ExtResource("3_27h0c")
-region_enabled = true
-region_rect = Rect2(0, 0, 800, 1000)
 
 [node name="Fondo" type="Sprite2D" parent="ParallaxLayer"]
 texture_repeat = 2
