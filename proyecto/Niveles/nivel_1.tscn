@@ -145,7 +145,7 @@ _data = {
 &"RESET": SubResource("Animation_ti5ux")
 }
 
-[node name="Nivel 1" type="Node2D"]
+[node name="Nivel 1" type="Node2D" groups=["Player", "enemigo"]]
 script = ExtResource("1_m401e")
 
 [node name="Background" type="Sprite2D" parent="."]

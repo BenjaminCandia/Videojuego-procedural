@@ -98,3 +98,9 @@ func _on_area_2d_body_entered(body):
 func die():
 	print("Jugador muerto!")
 	get_tree().change_scene_to_file("res://Interfaces/GameOver/game_over.tscn")
+
+
+func _on_hitbox_body_entered(body) :
+	if body.is_in_group("enemigo"):
+		animated_sprite.play("muerte")
+		die()
