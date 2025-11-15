@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://3n2py23c1ym1"]
+[gd_scene load_steps=14 format=3 uid="uid://3n2py23c1ym1"]
 
 [ext_resource type="FontFile" uid="uid://0cwcdt46ru17" path="res://Sprites Proyecto/10 Font/CyberpunkCraftpixPixel.otf" id="1_0l4mk"]
 [ext_resource type="Script" uid="uid://oj186bkex2yn" path="res://Interfaces/GameOver/game_over.gd" id="1_wx1p7"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ddudvvb6f0lnu" path="res://Interfaces/menus/MainMenu/parallax_background.tscn" id="4_8xp8w"]
 [ext_resource type="Texture2D" uid="uid://n1mpfxl4usll" path="res://Interfaces/ciudad.png" id="5_ug5r6"]
 [ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="6_ug5r6"]
+[ext_resource type="AudioStream" uid="uid://dtugf25gwl0kr" path="res://audio videojuego/intromp3.mp3" id="7_s5gdk"]
 
 [sub_resource type="Theme" id="Theme_a02ig"]
 default_font = ExtResource("1_0l4mk")
@@ -120,5 +121,10 @@ libraries = {
 &"": SubResource("AnimationLibrary_20ptu")
 }
 autoplay = "Cambio de escena"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_s5gdk")
+pitch_scale = 0.5
+autoplay = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/Volver" to="." method="_on_volver_pressed"]
