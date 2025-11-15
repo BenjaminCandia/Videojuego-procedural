@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5h8t2p7vltn0"]
+
+[ext_resource type="AudioStream" uid="uid://cjg6rf0pee87s" path="res://audio videojuego/etapamp3.mp3" id="1_hm54q"]
+
+[node name="MusicManager" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_hm54q")
+volume_db = -1.0
+autoplay = true

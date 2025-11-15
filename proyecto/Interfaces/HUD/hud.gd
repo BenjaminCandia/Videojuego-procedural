@@ -4,6 +4,10 @@ extends CanvasLayer
 @onready var time_label = $Control/Cronometro
 
 func _ready():
+	# Conectar señal de cambio de monedas
+	Global.monedas_actualizadas.connect(_on_monedas_actualizadas)
+	_on_monedas_actualizadas(Global.coins_total) # Inicializa valor actual
+
 	# Detecta cambios de escena
 	get_tree().connect("scene_changed", Callable(self, "_on_scene_changed"))
 	call_deferred("_on_scene_changed", get_tree().current_scene)
@@ -37,3 +41,8 @@ func _process(delta):
 func update_coins():
 	if coins_label:
 		coins_label.text = str(Global.coins_total)
+
+# 🔔 Nueva función: actualiza el HUD al recibir la señal
+func _on_monedas_actualizadas(nuevo_total):
+	print("[HUD] Actualizando monedas en HUD. Nuevo total:", nuevo_total)
+	update_coins()

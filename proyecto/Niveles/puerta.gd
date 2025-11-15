@@ -15,11 +15,6 @@ func _on_body_entered(body: Node):
 		set_deferred("monitoring", false)
 		set_deferred("monitorable", false)
 
-		# Sumar moneda y actualizar HUD
-		if Global.has_method("award_coin"):
-			Global.award_coin()
-		if Hud.has_method("update_coins"):
-			Hud.update_coins()
 
 		# Guardar tiempo del nivel
 		var level_name = get_tree().current_scene.name

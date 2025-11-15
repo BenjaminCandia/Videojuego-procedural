@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://c8smybliinajy"]
+[gd_scene load_steps=27 format=4 uid="uid://c8smybliinajy"]
 
 [ext_resource type="Texture2D" uid="uid://d8ie2uup3eym" path="res://Sprites Proyecto/2 Background/Background.png" id="1_wpufp"]
 [ext_resource type="Texture2D" uid="uid://dtk3jeexpn1pi" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_04.png" id="3_wrc16"]
@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://dpw6ix6hm6awa" path="res://Sprites Proyecto/1 Tiles/IndustrialTile_63.png" id="10_8ymda"]
 [ext_resource type="PackedScene" uid="uid://cexkktb7pq7ui" path="res://Niveles/puerta.tscn" id="10_kvgko"]
 [ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="12_8wgll"]
+[ext_resource type="PackedScene" uid="uid://cn4o5xf1iui63" path="res://Enemigos/enemigo.tscn" id="13_c7pge"]
+[ext_resource type="PackedScene" uid="uid://d03c1jujdtepq" path="res://Interfaces/coin.tscn" id="14_ruer5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y1w4v"]
 texture = ExtResource("3_wrc16")
@@ -171,5 +173,23 @@ libraries = {
 &"": SubResource("AnimationLibrary_20ptu")
 }
 autoplay = "Cambio de escena"
+
+[node name="enemigo" parent="." instance=ExtResource("13_c7pge")]
+position = Vector2(203, 330)
+
+[node name="enemigo2" parent="." instance=ExtResource("13_c7pge")]
+position = Vector2(455, 334)
+
+[node name="Coin" parent="." instance=ExtResource("14_ruer5")]
+position = Vector2(165, 308)
+
+[node name="Coin2" parent="." instance=ExtResource("14_ruer5")]
+position = Vector2(404, 325)
+
+[node name="Coin3" parent="." instance=ExtResource("14_ruer5")]
+position = Vector2(606, 43)
+
+[node name="Coin4" parent="." instance=ExtResource("14_ruer5")]
+position = Vector2(199, 61)
 
 [connection signal="body_entered" from="puerta" to="puerta" method="_on_body_entered"]
