@@ -10,6 +10,52 @@ extends Node2D
 @export var GROUND_SOURCE_ID := 5
 @export var GROUND_ATLAS := Vector2i(0, 0)
 
+# --- Escenas instanciables (no dependemos de nombres de nodos internos) ---
+@export var player_scene: PackedScene
+@export var door_scene: PackedScene
+
+# --- Instancias vivas (para limpiar si regeneramos) ---
+var _player_instance: Node2D
+var _goal_instance: Node2D
+
+func _tile_global_pos_above(t: Vector2i) -> Vector2:
+	var tile_size: Vector2i = ground.tile_set.tile_size
+	var local_center: Vector2 = ground.map_to_local(t)
+	var global_center: Vector2 = ground.to_global(local_center)
+	var half_h: float = float(tile_size.y) / 2.0
+	return global_center - Vector2(0, half_h)
+
+func _place_spawns(route_tiles: Array) -> void:
+	if route_tiles.is_empty():
+		return
+
+	# Limpia instancias previas si existen
+	if is_instance_valid(_player_instance):
+		_player_instance.queue_free()
+		_player_instance = null
+	if is_instance_valid(_goal_instance):
+		_goal_instance.queue_free()
+		_goal_instance = null
+
+	var start_tile: Vector2i = route_tiles[0]
+	var end_tile: Vector2i = route_tiles[-1]
+
+	var start_pos: Vector2 = _tile_global_pos_above(start_tile)
+	var end_pos: Vector2 = _tile_global_pos_above(end_tile)
+
+	# Instancia inicio (jugador)
+	if player_scene:
+		_player_instance = player_scene.instantiate()
+		add_child(_player_instance)
+		if "global_position" in _player_instance:
+			_player_instance.global_position = start_pos
+
+	# Instancia final (meta/puerta)
+	if door_scene:
+		_goal_instance = door_scene.instantiate()
+		add_child(_goal_instance)
+		if "global_position" in _goal_instance:
+			_goal_instance.global_position = end_pos
 
 # ============================================================
 # 🧱 CREA MUROS DE 2 TILES DE GROSOR, PATRÓN 2×2 REPETIDO
@@ -22,7 +68,6 @@ func fill_walls(tiles_x: int, tiles_y: int) -> void:
 				var atlas_x = x % 2
 				var atlas_y = y % 2
 				wall.set_cell(Vector2i(x, y), WALL_SOURCE_ID, Vector2i(atlas_x, atlas_y))
-
 
 # ============================================================
 # 🗺️ GENERADOR DE TERRENO POR SECTORES (ESTILO SPELUNKY)
@@ -99,7 +144,7 @@ func generate_ground() -> Dictionary:
 		ground.set_cell(start_tile + Vector2i(i, 0), GROUND_SOURCE_ID, GROUND_ATLAS)
 	route_tiles.insert(0, start_tile)
 
-	# --- Bloque meta ---
+	# --- Bloque final ---
 	var end_tile = Vector2i(end_sector.x * sector_w + 2, end_sector.y * sector_h + 3)
 	for i in range(6):
 		ground.set_cell(end_tile + Vector2i(i, 0), GROUND_SOURCE_ID, GROUND_ATLAS)
@@ -112,7 +157,6 @@ func generate_ground() -> Dictionary:
 		"end_sector": end_sector,
 		"grid_size": Vector2i(sectors_x, sectors_y)
 	}
-
 
 # ============================================================
 # 🧠 VALIDACIÓN DE RUTA SECTORIAL (MACRO)
@@ -142,7 +186,6 @@ func validate_route_sectors(path: Array, start_sector: Vector2i, end_sector: Vec
 
 	print("✅ Ruta sectorial válida con", path.size(), "sectores conectados.")
 	return true
-
 
 # ============================================================
 # 🧗 VALIDACIÓN DE RUTA JUGABLE (MICRO)
@@ -193,7 +236,6 @@ func validate_route(route: Array) -> bool:
 
 	return true
 
-
 # ============================================================
 # 🧾 DEBUG VISUAL DE SECTORES
 # ============================================================
@@ -216,7 +258,6 @@ func print_sector_map(path: Array, start_sector: Vector2i, end_sector: Vector2i,
 	print("\n--- MAPA DE SECTORES ---")
 	for y in range(total_y):
 		print("".join(grid[y]))
-
 
 # ============================================================
 # 🚀 PUNTO DE ENTRADA PRINCIPAL
@@ -271,3 +312,4 @@ func _ready() -> void:
 			result["grid_size"].x,
 			result["grid_size"].y
 		)
+		_place_spawns(result["route_tiles"])

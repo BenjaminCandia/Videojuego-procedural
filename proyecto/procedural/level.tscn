@@ -1,13 +1,15 @@
 [gd_scene load_steps=5 format=3 uid="uid://chmgracohfefg"]
 
-[ext_resource type="TileSet" uid="uid://b8nf1c40ek83d" path="res://Niveles/nivel_1.tres" id="1_st0sc"]
+[ext_resource type="TileSet" uid="uid://cakvomxog2llh" path="res://Niveles/nivel_1.tres" id="1_st0sc"]
 [ext_resource type="Script" uid="uid://buct8mpcr4gtk" path="res://procedural/level.gd" id="1_t8rqg"]
-[ext_resource type="PackedScene" uid="uid://cexkktb7pq7ui" path="res://Niveles/puerta.tscn" id="3_6hd8b"]
-[ext_resource type="PackedScene" uid="uid://b33mmxlw6v4o5" path="res://Personaje/personaje.tscn" id="3_gist2"]
+[ext_resource type="PackedScene" uid="uid://b33mmxlw6v4o5" path="res://Personaje/personaje.tscn" id="2_6hd8b"]
+[ext_resource type="PackedScene" uid="uid://cexkktb7pq7ui" path="res://Niveles/puerta.tscn" id="3_qprr7"]
 
 [node name="Level" type="Node2D"]
 position = Vector2(1, 0)
 script = ExtResource("1_t8rqg")
+player_scene = ExtResource("2_6hd8b")
+door_scene = ExtResource("3_qprr7")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("1_st0sc")
@@ -25,9 +27,3 @@ tile_set = ExtResource("1_st0sc")
 position = Vector2(1, 0)
 tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 0, 5, 0, 1, 0, 0, 0, 0, 0)
 tile_set = ExtResource("1_st0sc")
-
-[node name="puerta" parent="." instance=ExtResource("3_6hd8b")]
-position = Vector2(592, 32)
-
-[node name="personaje" parent="." instance=ExtResource("3_gist2")]
-position = Vector2(36, 306)
