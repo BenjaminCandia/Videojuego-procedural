@@ -163,7 +163,6 @@ next_scene = "res://Niveles/nivel_3.tscn"
 position = Vector2(40, 325)
 
 [node name="Negro" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(340, 188)
 scale = Vector2(1.9903381, 1.1636362)
 texture = ExtResource("12_8wgll")

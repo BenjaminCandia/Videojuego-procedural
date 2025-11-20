@@ -16,9 +16,15 @@ var is_dashing: bool = false
 var can_dash: bool = true
 var dash_timer: float = 0.0
 var dash_cooldown_timer: float = 0.0
+var is_dead: bool = false   # 👈 Nuevo: evita mover al jugador cuando muere
 
 
 func _physics_process(delta):
+
+	# Si está muerto, NO se mueve
+	if is_dead:
+		return
+
 	if dash_cooldown_timer > 0:
 		dash_cooldown_timer -= delta
 
@@ -87,20 +93,34 @@ func start_dash():
 	animated_sprite.play("dash")
 
 
-# --- 🚨 NUEVO CÓDIGO AQUÍ ---
-# Esta función se llama cuando el Area2D del jugador detecta que otro cuerpo lo tocó
+# --- COLISIÓN DEL ÁREA ---
 func _on_area_2d_body_entered(body):
-	if body.is_in_group("enemigo"):  # Detecta si el cuerpo pertenece al grupo enemigo
-		die()
-
-
-# Función que maneja la "muerte" del jugador
-func die():
-	print("Jugador muerto!")
-	get_tree().change_scene_to_file("res://Interfaces/GameOver/game_over.tscn")
-
-
-func _on_hitbox_body_entered(body) :
 	if body.is_in_group("enemigo"):
-		animated_sprite.play("muerte")
 		die()
+
+
+# --- COLISIÓN DEL HITBOX ---
+func _on_hitbox_body_entered(body):
+	if body.is_in_group("enemigo"):
+		die()
+
+
+# --- MUERTE DEL JUGADOR ---
+func die():
+	if is_dead:
+		return  # evita que muera dos veces
+
+	print("Jugador muerto!")
+	is_dead = true      # Detiene el control del jugador
+	velocity = Vector2.ZERO  # No se mueve más
+	animated_sprite.play("muerte")   # 🎞 Reproduce animación
+	
+	call_deferred("_restart_level_with_delay")
+
+
+# --- REINICIAR NIVEL CON RETRASO ---
+func _restart_level_with_delay():
+	await get_tree().create_timer(0.5).timeout   # 🕒 Espera 1 segundo
+
+	var current_scene_path = get_tree().current_scene.scene_file_path
+	get_tree().change_scene_to_file(current_scene_path)
