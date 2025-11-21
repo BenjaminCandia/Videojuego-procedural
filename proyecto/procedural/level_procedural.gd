@@ -215,9 +215,23 @@ func generate_ground() -> Dictionary:
 			"start_tile": start_tile,
 			"end_tile": end_tile
 		}
-func cell_center_global(layer: TileMapLayer, cell: Vector2i) -> Vector2:
+func cell_one_tile_up_global(layer: TileMapLayer, cell: Vector2i) -> Vector2:
 	var ts: Vector2i = layer.tile_set.tile_size
-	var local := Vector2((cell.x + 0.5) * ts.x, (cell.y + 0.5) * ts.y)
+
+	var local := Vector2(
+		(cell.x + 0.5) * ts.x,   # centro horizontal
+		(cell.y - 1.5) * ts.y    # 1.5 tiles arriba
+	)
+
+	return layer.to_global(local)
+func cell_one_tile_up_global2(layer: TileMapLayer, cell: Vector2i) -> Vector2:
+	var ts: Vector2i = layer.tile_set.tile_size
+
+	var local := Vector2(
+		(cell.x + 3) * ts.x,
+		(cell.y - 1.3) * ts.y
+	)
+
 	return layer.to_global(local)
 
 func _process(delta: float) -> void:
@@ -329,9 +343,9 @@ func _ready() -> void:
 	var end_cell: Vector2i = gen["end_tile"]
 
 	# Opción A: centro de la celda
-	player.position = cell_center_global(ground, start_cell)
-	door.position   = cell_center_global(ground, end_cell)
+	#player.position = cell_center_global(ground, start_cell)
+	#door.position   = cell_center_global(ground, end_cell)
 
 	# Opción B: pies sobre la base (útil si el origen del sprite es centrado)
-	# player.position = cell_feet_global(ground, start_cell)
-	# door.position   = cell_feet_global(ground, end_cell)
+	player.position = cell_one_tile_up_global(ground, start_cell)
+	door.position   = cell_one_tile_up_global2(ground, end_cell)
