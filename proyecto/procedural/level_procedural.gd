@@ -333,11 +333,18 @@ func _ready() -> void:
 	if player == null and player_scene:
 		player = player_scene.instantiate()
 		add_child(player)
+		# Asegurar grupo Player
+		if not player.is_in_group("Player"):
+			player.add_to_group("Player")
 
 	if door == null and door_scene:
 		door = door_scene.instantiate()
 		add_child(door)
-
+		# Esta escena se vuelve el "siguiente nivel"
+		var level_path := get_tree().current_scene.scene_file_path
+		door.next_scene = level_path   # 👈 string, no PackedScene
+		print("🔍 next_scene =", door.next_scene, "  (tipo:", typeof(door.next_scene), ")")
+		
 	# Posicionar usando la capa Ground como referencia
 	var start_cell: Vector2i = gen["start_tile"]
 	var end_cell: Vector2i = gen["end_tile"]
