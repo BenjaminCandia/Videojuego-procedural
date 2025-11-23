@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://mlak5hdedwxy"
-path="res://.godot/imported/chip_overlock.png-7e9f5d9056fb7eb805e43fa2f2e80417.ctex"
+uid="uid://botj5y6qh6ptl"
+path="res://.godot/imported/nanoescudo.png-b2cd56dfee296f530ae524c2f93f6232.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Interfaces/items/chip_overlock.png"
-dest_files=["res://.godot/imported/chip_overlock.png-7e9f5d9056fb7eb805e43fa2f2e80417.ctex"]
+source_file="res://Interfaces/items/nanoescudo.png"
+dest_files=["res://.godot/imported/nanoescudo.png-b2cd56dfee296f530ae524c2f93f6232.ctex"]
 
 [params]
 

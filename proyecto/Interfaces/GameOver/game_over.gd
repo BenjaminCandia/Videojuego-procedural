@@ -35,7 +35,7 @@ func _on_volver_pressed() -> void:
 	get_tree().change_scene_to_file("res://Interfaces/menus/MainMenu/main_menu.tscn")
 
 func send_post_request(player_name: String):
-	var url = "http://127.0.0.1:9292/#hero"
+	var url = "https://procedural-game-landing.onrender.com/"
 	var data = {
 		"player": player_name,
 		"levels": total_levels,

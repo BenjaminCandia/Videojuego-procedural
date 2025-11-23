@@ -5,16 +5,16 @@ extends CanvasLayer
 
 var mejoras = {
 	"economica": [
-		{"nombre": "Overlock", "descripción": "Mayor aceleración", "precio": 5, "imagen":"res://Interfaces/items/Sprite-0002.png" },
-		{"nombre": "Nanoescudo", "descripción": "Protección básica", "precio": 7, "imagen":"res://Interfaces/items/Sprite-0001.png"},
+		{"nombre": "Overlock", "descripción": "Mayor aceleración", "precio": 5, "imagen": "res://Interfaces/items/chip.png"},
+		{"nombre": "Nanoescudo", "descripción": "Protección básica", "precio": 7, "imagen":"res://Interfaces/items/nanoescudo.png"},
 	],
 	"media": [
-		{"nombre": "Clarividencia", "descripción": "Muestra parte de la solución por 15 segundos", "precio": 15, "imagen":"res://Interfaces/items/Sprite-0001.png"  },
-		{"nombre": "Sensor", "descripción": "Permite ver una parte de la solución", "precio": 20, "imagen":"res://Interfaces/items/Sprite-0001.png"},
+		{"nombre": "Clarividencia", "descripción": "Muestra parte de la solución por 15 segundos", "precio": 15, "imagen": "res://Interfaces/items/clarividencia.png"  },
+		{"nombre": "Sensor", "descripción": "Permite ver una parte de la solución", "precio": 20, "imagen":"res://Interfaces/items/sensor.png" },
 	],
 	"alta": [
-		{"nombre": "Rafaga", "descripción": "No disponible", "precio": 40, "imagen":"res://Interfaces/items/Sprite-0001.png"},
-		{"nombre": "Nanoescudo avanzado", "descripción": "No disponible", "precio": 50 , "imagen":"res://Interfaces/items/Sprite-0001.png" },
+		{"nombre": "Rafaga", "descripción": "No disponible", "precio": 40, "imagen":"res://Interfaces/items/rafaga.png"},
+		{"nombre": "Nanoescudo avanzado", "descripción": "No disponible", "precio": 50 , "imagen": "res://Interfaces/items/campoavanzado.png"},
 	]
 }
 
@@ -61,7 +61,7 @@ func agregar_producto(mejora: Dictionary, tipo: String):
 
 			var imagen = TextureRect.new()
 			imagen.texture = textura
-			imagen.custom_minimum_size = Vector2(30, 30) 
+			imagen.custom_minimum_size = Vector2(10, 10) 
 			imagen.stretch_mode = TextureRect.STRETCH_SCALE
 			imagen.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 

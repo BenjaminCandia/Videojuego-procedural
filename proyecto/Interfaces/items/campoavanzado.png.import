@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b33srfgji58hy"
-path="res://.godot/imported/Sprite-0001.png-31b34ba915e992d3a50083cb44aacd55.ctex"
+uid="uid://dpg2y8qsifq1h"
+path="res://.godot/imported/campoavanzado.png-211e3acba2e586465b350202ebbcf159.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Interfaces/items/Sprite-0001.png"
-dest_files=["res://.godot/imported/Sprite-0001.png-31b34ba915e992d3a50083cb44aacd55.ctex"]
+source_file="res://Interfaces/items/campoavanzado.png"
+dest_files=["res://.godot/imported/campoavanzado.png-211e3acba2e586465b350202ebbcf159.ctex"]
 
 [params]
 
