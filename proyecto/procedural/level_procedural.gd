@@ -26,6 +26,7 @@ extends Node2D
 # --- Estado runtime ---
 var player: Node2D = null
 var door: Node2D = null
+var door2: Node2D = null
 
 # ============================================================
 # 🧩 MÓDULO: TILES (utilidades de tiles y grilla)
@@ -93,8 +94,8 @@ func generate_ground() -> Dictionary:
 	
 	var route_tiles: Array[Vector2i] = []
 	var sector_path: Array[Vector2i] = []
-	var visited: Dictionary[String, bool] = {}
-	
+	var visited: Dictionary = {}
+
 	var start_positions: Array[Vector2i] = [
 		Vector2i(0, 0),
 		Vector2i(sectors_x - 1, 0),
@@ -102,11 +103,24 @@ func generate_ground() -> Dictionary:
 		Vector2i(sectors_x - 1, sectors_y - 1)
 	]
 
-	var start_index = rng.randi_range(0, start_positions.size() - 1)
-	var start_sector = start_positions[start_index]
+	# --- Escoger inicio ---
+	var start_index := rng.randi_range(0, start_positions.size() - 1)
+	var start_sector: Vector2i = start_positions[start_index]
 
+	# --- Escoger fin principal (en otra esquina) ---
 	var valid_ends: Array[Vector2i] = start_positions.filter(func(p): return p != start_sector)
-	var end_sector = valid_ends[rng.randi_range(0, valid_ends.size() - 1)]
+	var end_sector: Vector2i = valid_ends[rng.randi_range(0, valid_ends.size() - 1)]
+
+	# --- Escoger segundo fin (para door2) ---
+	var alt_end_sector: Vector2i = end_sector
+	if valid_ends.size() > 1:
+		var remaining_ends: Array[Vector2i] = []
+		for p in valid_ends:
+			if p != end_sector:
+				remaining_ends.append(p)
+		if remaining_ends.size() > 0:
+			alt_end_sector = remaining_ends[rng.randi_range(0, remaining_ends.size() - 1)]
+
 	# Parámetros
 	var OFFSET_TOP := 5
 	var OFFSET_SIDE := 2
@@ -114,11 +128,11 @@ func generate_ground() -> Dictionary:
 	var END_WIDTH := 6
 	var BORDER := border_thickness            # ej: 2
 
-	# Tamaño total del mapa en tiles (usa tus constantes reales si difieren)
+	# Tamaño total del mapa en tiles
 	var MAP_W := int(map_width)
 	var MAP_H := int(map_height)
 
-	# Helpers de borde “interior” (primera/última celda jugable por lado)
+	# Helpers de borde interior
 	var LEFT_INNER_X := BORDER
 	var RIGHT_INNER_X := MAP_W - BORDER - 1
 	var TOP_INNER_Y := BORDER
@@ -127,7 +141,7 @@ func generate_ground() -> Dictionary:
 	# =================== INICIO (2 tiles) ===================
 	var start_y: int
 	if start_sector.y == 0:
-		# esquina superior → a OFFSET_TOP del borde superior (ya dentro del mapa)
+		# esquina superior → a OFFSET_TOP del borde superior
 		start_y = TOP_INNER_Y + OFFSET_TOP
 	else:
 		# esquina inferior → a OFFSET_TOP del borde inferior
@@ -141,18 +155,16 @@ func generate_ground() -> Dictionary:
 		for i in range(START_WIDTH):
 			ground.set_cell(Vector2i(start_first_x + i, start_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
 	else:
-		# lado derecho → el más cercano al borde a OFFSET_SIDE del borde derecho
+		# lado derecho → a OFFSET_SIDE del borde derecho, dibujando hacia la izquierda
 		var rightmost_x := RIGHT_INNER_X - OFFSET_SIDE
-		# dibujar hacia la izquierda (así queda simétrico)
 		for i in range(START_WIDTH):
 			ground.set_cell(Vector2i(rightmost_x - i, start_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
-		# coordenada del “primer” tile (más a la izquierda) del bloque
 		start_first_x = rightmost_x - (START_WIDTH - 1)
 
 	var start_tile := Vector2i(start_first_x, start_y)
 	route_tiles.insert(0, start_tile)
 
-	# ==================== FINAL (6 tiles) ====================
+	# ==================== FINAL PRINCIPAL (6 tiles) ====================
 	var end_y: int
 	if end_sector.y == 0:
 		end_y = TOP_INNER_Y + OFFSET_TOP
@@ -166,7 +178,7 @@ func generate_ground() -> Dictionary:
 		for i in range(END_WIDTH):
 			ground.set_cell(Vector2i(end_first_x + i, end_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
 	else:
-		# derecha → hacia la izquierda (pegado con OFFSET_SIDE al borde)
+		# derecha → hacia la izquierda
 		var rightmost_x2 := RIGHT_INNER_X - OFFSET_SIDE
 		for i in range(END_WIDTH):
 			ground.set_cell(Vector2i(rightmost_x2 - i, end_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
@@ -174,21 +186,42 @@ func generate_ground() -> Dictionary:
 
 	var end_tile := Vector2i(end_first_x, end_y)
 	route_tiles.append(end_tile)
-#------------------------------
+
+	# ==================== SEGUNDA PUERTA (6 tiles) =====================
+	var alt_end_y: int
+	if alt_end_sector.y == 0:
+		alt_end_y = TOP_INNER_Y + OFFSET_TOP
+	else:
+		alt_end_y = BOTTOM_INNER_Y - OFFSET_TOP
+
+	var alt_end_first_x: int
+	if alt_end_sector.x == 0:
+		alt_end_first_x = LEFT_INNER_X + OFFSET_SIDE
+		for i in range(END_WIDTH):
+			ground.set_cell(Vector2i(alt_end_first_x + i, alt_end_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
+	else:
+		var rightmost_x3 := RIGHT_INNER_X - OFFSET_SIDE
+		for i in range(END_WIDTH):
+			ground.set_cell(Vector2i(rightmost_x3 - i, alt_end_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
+		alt_end_first_x = rightmost_x3 - (END_WIDTH - 1)
+
+	var alt_end_tile := Vector2i(alt_end_first_x, alt_end_y)
+	route_tiles.append(alt_end_tile)
+
 	# --- Generar camino sectorial (DFS simple) ---
-	var stack = [start_sector]
+	var stack: Array[Vector2i] = [start_sector]
 	while stack.size() > 0:
-		var current = stack.pop_back()
+		var current: Vector2i = stack.pop_back()
 		sector_path.append(current)
 		visited[str(current)] = true
 
 		if current == end_sector:
 			break
 
-		var dirs = [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]
+		var dirs: Array[Vector2i] = [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]
 		dirs.shuffle()
 		for d in dirs:
-			var next = current + d
+			var next: Vector2i = current + d
 			if next.x >= 0 and next.x < sectors_x and next.y >= 0 and next.y < sectors_y:
 				if not visited.has(str(next)):
 					stack.append(next)
@@ -196,25 +229,26 @@ func generate_ground() -> Dictionary:
 
 	# --- Dibujar plataformas en los sectores del camino ---
 	for sec in sector_path:
-		var base_x = sec.x * sector_w
-		var base_y = sec.y * sector_h
-		var plat_y = base_y + rng.randi_range(2, sector_h - 2)
-		var plat_x = base_x + rng.randi_range(1, sector_w - 4)
-		var width = rng.randi_range(3, 5)
+		var base_x := sec.x * sector_w
+		var base_y := sec.y * sector_h
+		var plat_y := base_y + rng.randi_range(2, sector_h - 2)
+		var plat_x := base_x + rng.randi_range(1, sector_w - 4)
+		var width := rng.randi_range(3, 5)
 		for i in range(width):
 			ground.set_cell(Vector2i(plat_x + i, plat_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
 		route_tiles.append(Vector2i(plat_x, plat_y))
 
-#------------------------------
 	return {
-			"route_tiles": route_tiles,
-			"sector_path": sector_path,
-			"start_sector": start_sector,
-			"end_sector": end_sector,
-			"grid_size": Vector2i(sectors_x, sectors_y),
-			"start_tile": start_tile,
-			"end_tile": end_tile
-		}
+		"route_tiles": route_tiles,
+		"sector_path": sector_path,
+		"start_sector": start_sector,
+		"end_sector": end_sector,
+		"alt_end_sector": alt_end_sector,
+		"grid_size": Vector2i(sectors_x, sectors_y),
+		"start_tile": start_tile,
+		"end_tile": end_tile,
+		"alt_end_tile": alt_end_tile
+	}
 func cell_one_tile_up_global(layer: TileMapLayer, cell: Vector2i) -> Vector2:
 	var ts: Vector2i = layer.tile_set.tile_size
 
@@ -314,22 +348,29 @@ func validate_route(route: Array) -> bool:
 		print("✅ Salto válido de", a, "a", b, "dx:", dx, "dy:", dy)
 
 	return true
-	
+
+
 func _ready() -> void:
 	# Alinear TileMap y capas al origen
 	$TileMap.position = Vector2.ZERO
-	if wall:    wall.position = Vector2.ZERO
-	if ground:  ground.position = Vector2.ZERO
-	if objects: objects.position = Vector2.ZERO
+	if wall:
+		wall.position = Vector2.ZERO
+	if ground:
+		ground.position = Vector2.ZERO
+	if objects:
+		objects.position = Vector2.ZERO
 	
-	var size = get_viewport().get_visible_rect().size
-	var tiles_x = int(size.x / wall.tile_set.tile_size.x)
-	var tiles_y = int(size.y / wall.tile_set.tile_size.y)
+	# Calcular tamaño del mapa en tiles según el viewport
+	var size := get_viewport().get_visible_rect().size
+	var tiles_x := int(size.x / wall.tile_set.tile_size.x)
+	var tiles_y := int(size.y / wall.tile_set.tile_size.y)
 
 	fill_walls(tiles_x, tiles_y)
-	var gen := generate_ground()
 
-	# Instanciar si hace falta
+	# Generar piso y obtener datos de inicio/fin
+	var gen: Dictionary = generate_ground()
+
+	# Instanciar PLAYER si hace falta
 	if player == null and player_scene:
 		player = player_scene.instantiate()
 		add_child(player)
@@ -337,22 +378,34 @@ func _ready() -> void:
 		if not player.is_in_group("Player"):
 			player.add_to_group("Player")
 
+	# Instanciar PUERTA 1 si hace falta
 	if door == null and door_scene:
 		door = door_scene.instantiate()
 		add_child(door)
-		# Esta escena se vuelve el "siguiente nivel"
+		# Esta escena se vuelve el "siguiente nivel" (reinicio)
 		var level_path := get_tree().current_scene.scene_file_path
-		door.next_scene = level_path   # 👈 string, no PackedScene
+		door.next_scene = level_path   # string
 		print("🔍 next_scene =", door.next_scene, "  (tipo:", typeof(door.next_scene), ")")
-		
+
+	# Instanciar PUERTA 2 si hace falta
+	if door2 == null and door_scene:
+		door2 = door_scene.instantiate()
+		add_child(door2)
+		# También apunta a este mismo nivel (puede ser otro nivel si quieres)
+		var level_path2 := 'res://Interfaces/GameOver/game_over.tscn'
+		door2.next_scene = level_path2
+		print("🔍 door2 next_scene =", door2.next_scene, "  (tipo:", typeof(door2.next_scene), ")")
+
 	# Posicionar usando la capa Ground como referencia
 	var start_cell: Vector2i = gen["start_tile"]
 	var end_cell: Vector2i = gen["end_tile"]
+	var alt_end_cell: Vector2i = gen["alt_end_tile"]
 
-	# Opción A: centro de la celda
-	#player.position = cell_center_global(ground, start_cell)
-	#door.position   = cell_center_global(ground, end_cell)
-
-	# Opción B: pies sobre la base (útil si el origen del sprite es centrado)
+	# PLAYER en el inicio
 	player.position = cell_one_tile_up_global(ground, start_cell)
-	door.position   = cell_one_tile_up_global2(ground, end_cell)
+
+	# PUERTA 1 en end_cell
+	door.position = cell_one_tile_up_global2(ground, end_cell)
+
+	# PUERTA 2 en alt_end_cell (segunda esquina, lejos del player)
+	door2.position = cell_one_tile_up_global2(ground, alt_end_cell)

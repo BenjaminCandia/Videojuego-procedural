@@ -21,6 +21,7 @@ config/icon="uid://b8msdrn5pn65u"
 Global="*res://Scripts/Global.gd"
 Hud="*res://Interfaces/HUD/HUD.tscn"
 MusicManager="*res://audio videojuego/music_manager.tscn"
+ApiClient="*res://Scripts/network/ApiClient.gd"
 
 [display]
 
