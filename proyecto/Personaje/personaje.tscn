@@ -233,12 +233,6 @@ radius = 9.0
 position = Vector2(-3, 0)
 collision_mask = 3
 script = ExtResource("1_rbp53")
-move_speed = 210.0
-jump_speed = 350.0
-gravity = 950.0
-dash_speed = 400.0
-dash_duration = 0.1
-dash_cooldown = 0.4
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c3rv3")
