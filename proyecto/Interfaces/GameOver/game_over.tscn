@@ -116,7 +116,6 @@ libraries = {
 }
 autoplay = "Cambio de escena"
 
-<<<<<<< HEAD
 [node name="Guardar" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -168,11 +167,8 @@ ok_button_text = "OKAY"
 dialog_text = "¡Se ha guardado correctamente!"
 
 [connection signal="pressed" from="Volver" to="." method="_on_volver_pressed"]
-=======
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_s5gdk")
 pitch_scale = 0.5
 autoplay = true
-
-[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/VBoxContainer/Volver" to="." method="_on_volver_pressed"]
->>>>>>> a8c5d6a981dbe2e9c2f74f2f3902cdaffef861c3
