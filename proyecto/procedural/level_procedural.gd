@@ -7,6 +7,8 @@ extends Node2D
 # --- Escenas a instanciar ---
 @export var player_scene: PackedScene
 @export var door_scene: PackedScene
+@export var result_panel_scene: PackedScene
+@onready var equation_label: Label = $HUD/ColorRect/Label
 
 # --- Capas (TileMapLayer) ---
 @onready var wall:    TileMapLayer = $TileMap/Wall
@@ -27,6 +29,18 @@ extends Node2D
 var player: Node2D = null
 var door: Node2D = null
 var door2: Node2D = null
+
+var result_panel_door: Node2D = null    # correcto
+var result_panel_door2: Node2D = null   # incorrecto
+
+# Donde guardarás la ecuación actual
+var current_expression: String = ""
+var current_correct: int = 0
+var current_wrongs: Array[int] = []
+
+func _update_equation_label() -> void:
+	if equation_label:
+		equation_label.text = current_expression
 
 # ============================================================
 # 🧩 MÓDULO: TILES (utilidades de tiles y grilla)
@@ -348,6 +362,45 @@ func validate_route(route: Array) -> bool:
 		print("✅ Salto válido de", a, "a", b, "dx:", dx, "dy:", dy)
 
 	return true
+	
+func _request_new_equation() -> void:
+	var result: Dictionary = await ApiClient.fetch_equation(3, 1)
+	if typeof(result) != TYPE_DICTIONARY or result.is_empty():
+		# Fallback local
+		current_expression = "7 + 4 + 4"
+		current_correct = 15
+		current_wrongs = [16, 17]
+	else:
+		current_expression = str(result.get("expression", ""))
+		current_correct = int(result.get("correct", 0))
+		current_wrongs.clear()
+		for w in result.get("wrongs", []):
+			current_wrongs.append(int(w))
+	
+	# Aplicar los resultados a los carteles de las puertas
+	_apply_results_to_panels()
+	_update_equation_label()
+
+
+func _apply_results_to_panels() -> void:
+	if not result_panel_door or not result_panel_door2:
+		return
+
+	var correct_value: int = current_correct
+
+	# Usar solo la PRIMERA respuesta errónea
+	var wrong_value: int
+	if current_wrongs.size() > 0:
+		wrong_value = current_wrongs[0]
+	else:
+		# fallback por si algún día la API falla
+		wrong_value = current_correct + 1
+
+	# door = correcto
+	result_panel_door.call("set_number", correct_value)
+
+	# door2 = incorrecto
+	result_panel_door2.call("set_number", wrong_value)
 
 
 func _ready() -> void:
@@ -409,3 +462,20 @@ func _ready() -> void:
 
 	# PUERTA 2 en alt_end_cell (segunda esquina, lejos del player)
 	door2.position = cell_one_tile_up_global2(ground, alt_end_cell)
+	
+	# ====== CARTELITOS BAJO LAS PUERTAS (IMAGEN + TEXTO) ======
+	if result_panel_scene:
+		var ts: Vector2i = _ts_tile_size()
+		var offset_under := Vector2(0, ts.y * 0.8)  # ~0.8 tiles debajo
+
+		# Panel bajo puerta correcta (door)
+		result_panel_door = result_panel_scene.instantiate()
+		add_child(result_panel_door)
+		result_panel_door.position = door.position + offset_under
+
+		# Panel bajo puerta incorrecta (door2)
+		result_panel_door2 = result_panel_scene.instantiate()
+		add_child(result_panel_door2)
+		result_panel_door2.position = door2.position + offset_under
+		
+	await _request_new_equation()
