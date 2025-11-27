@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ddudvvb6f0lnu" path="res://Interfaces/menus/MainMenu/parallax_background.tscn" id="4_8xp8w"]
 [ext_resource type="Texture2D" uid="uid://n1mpfxl4usll" path="res://Interfaces/ciudad.png" id="5_ug5r6"]
 [ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="6_ug5r6"]
+[ext_resource type="AudioStream" uid="uid://dtugf25gwl0kr" path="res://audio videojuego/intromp3.mp3" id="7_s5gdk"]
 
 [sub_resource type="Theme" id="Theme_a02ig"]
 default_font = ExtResource("1_0l4mk")
@@ -166,3 +167,8 @@ ok_button_text = "OKAY"
 dialog_text = "¡Se ha guardado correctamente!"
 
 [connection signal="pressed" from="Volver" to="." method="_on_volver_pressed"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_s5gdk")
+pitch_scale = 0.5
+autoplay = true

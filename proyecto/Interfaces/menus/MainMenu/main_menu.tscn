@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://n1mpfxl4usll" path="res://Interfaces/ciudad.png" id="5_ol0y6"]
 [ext_resource type="PackedScene" uid="uid://ddudvvb6f0lnu" path="res://Interfaces/menus/MainMenu/parallax_background.tscn" id="5_qbkh8"]
 [ext_resource type="Texture2D" uid="uid://c2h7bqivuonsy" path="res://Interfaces/negro.jpg" id="7_mq1uo"]
-[ext_resource type="AudioStream" uid="uid://dq8kr1n2orkdc" path="res://audio videojuego/intro.wav" id="8_vcw4o"]
+[ext_resource type="AudioStream" uid="uid://dtugf25gwl0kr" path="res://audio videojuego/intromp3.mp3" id="8_vcw4o"]
 
 [sub_resource type="Theme" id="Theme_4q22r"]
 MarginContainer/constants/margin_bottom = 10
@@ -127,7 +127,7 @@ autoplay = "Cambio de escena"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_vcw4o")
-volume_db = -23.475
+volume_db = -3.817
 autoplay = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer2/StartGame" to="." method="_on_start_game_pressed"]
