@@ -20,7 +20,7 @@ var is_dead: bool = false   # 👈 Nuevo: evita mover al jugador cuando muere
 
 
 func _physics_process(delta):
-
+	
 	# Si está muerto, NO se mueve
 	if is_dead:
 		return
