@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://gglm3n8qd5gq"]
+[gd_scene load_steps=33 format=4 uid="uid://gglm3n8qd5gq"]
 
 [ext_resource type="Script" uid="uid://cuy62584suubg" path="res://Niveles/nivel_1.gd" id="1_025t1"]
 [ext_resource type="Texture2D" uid="uid://cg4a003fkiron" path="res://Interfaces/shop.jpg" id="2_7se7v"]
@@ -144,6 +144,9 @@ sources/10 = SubResource("TileSetAtlasSource_7se7v")
 default_font = ExtResource("16_7se7v")
 default_font_size = 35
 
+[sub_resource type="Theme" id="Theme_m8thb"]
+Label/colors/font_color = Color(0.8668059, 0.0005989391, 0.86679995, 1)
+
 [node name="Tienda" type="Node2D" groups=["Player"]]
 script = ExtResource("1_025t1")
 next_scene_path = "res://Interfaces/GameOver/game_over.tscn"
@@ -278,5 +281,11 @@ size_flags_vertical = 1
 [node name="Button" type="Button" parent="TiendaUI/Panel/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+
+[node name="LabelConfirmacion" type="Label" parent="TiendaUI/Panel/VBoxContainer"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_m8thb")
+autowrap_mode = 2
 
 [connection signal="body_entered" from="puerta" to="puerta" method="_on_body_entered"]

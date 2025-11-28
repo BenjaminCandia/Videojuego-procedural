@@ -2,6 +2,7 @@ extends CanvasLayer
 
 @onready var productos_container = $Panel/VBoxContainer/HBoxContainer
 @onready var layout = $Panel/VBoxContainer
+@onready var label_confirmacion = $Panel/VBoxContainer/LabelConfirmacion
 
 var mejoras = {
 	"economica": [
@@ -115,5 +116,19 @@ func comprar(mejora):
 	if Global.gastar_monedas(mejora["precio"]):
 		print("[TIENDA] Compraste:", mejora["nombre"], "| Monedas restantes:", Global.coins_total)
 		Global.emit_signal("monedas_actualizadas", Global.coins_total)
+
+		# MOSTRAR MENSAJE DE CONFIRMACIÓN
+		label_confirmacion.text = "¡Tu compra ha sido realizada!"
+		label_confirmacion.visible = true
+
+		# Ocultar después de 2 segundos
+		await get_tree().create_timer(2.0).timeout
+		label_confirmacion.visible = false
+
 	else:
 		print("[TIENDA] No tienes suficientes monedas para:", mejora["nombre"])
+		label_confirmacion.text = "No tienes suficientes monedas"
+		label_confirmacion.visible = true
+
+		await get_tree().create_timer(1.5).timeout
+		label_confirmacion.visible = false
