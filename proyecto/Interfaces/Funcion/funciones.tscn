@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdo8x4i0nx6c2"]
+
+[ext_resource type="Texture2D" uid="uid://bv5yugadevxg5" path="res://Interfaces/Funcion/funciones.png" id="1_bm8cb"]
+[ext_resource type="Texture2D" uid="uid://bepc2a56yat4e" path="res://Interfaces/Funcion/variables.png" id="2_36ytw"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="HUD" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 9.0
+offset_right = 460.0
+offset_bottom = 51.0
+texture = ExtResource("1_bm8cb")
+expand_mode = 1
+
+[node name="VAR" type="TextureRect" parent="HUD"]
+layout_mode = 0
+offset_left = 342.0
+offset_top = 91.0
+offset_right = 413.0
+offset_bottom = 124.0
+texture = ExtResource("2_36ytw")
+
+[node name="VAR2" type="TextureRect" parent="HUD"]
+layout_mode = 0
+offset_left = -90.0
+offset_top = 93.0
+offset_right = -19.0
+offset_bottom = 126.0
+texture = ExtResource("2_36ytw")

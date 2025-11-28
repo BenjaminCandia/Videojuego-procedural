@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://cj8wjk4sdbbus"]
+[gd_scene load_steps=9 format=4 uid="uid://cj8wjk4sdbbus"]
 
 [ext_resource type="Script" uid="uid://c8kx7wome5yds" path="res://procedural/level_procedural.gd" id="1_tuvds"]
 [ext_resource type="PackedScene" uid="uid://b33mmxlw6v4o5" path="res://Personaje/personaje.tscn" id="2_cfm8c"]
@@ -6,6 +6,8 @@
 [ext_resource type="TileSet" uid="uid://cakvomxog2llh" path="res://Niveles/nivel_1.tres" id="4_kf2f2"]
 [ext_resource type="PackedScene" uid="uid://c7ua0sx1jyv84" path="res://Interfaces/Fx/ResultPanel.tscn" id="4_xdq1b"]
 [ext_resource type="Texture2D" uid="uid://d8ie2uup3eym" path="res://Sprites Proyecto/2 Background/Background.png" id="5_m3f1t"]
+[ext_resource type="Texture2D" uid="uid://bv5yugadevxg5" path="res://Interfaces/Funcion/funciones.png" id="7_6q1yt"]
+[ext_resource type="Texture2D" uid="uid://bepc2a56yat4e" path="res://Interfaces/Funcion/variables.png" id="8_ud8q6"]
 
 [node name="LevelProcedural" type="Node2D"]
 script = ExtResource("1_tuvds")
@@ -34,22 +36,38 @@ tile_set = ExtResource("4_kf2f2")
 tile_map_data = PackedByteArray("AAADAAEABgAAAAAAAAADAAIABgAAAAEAAAAEAAEABgABAAAAAAAEAAIABgABAAEAAAAHAAMACgAAAAAAAAAHAAQACgAAAAEAAAAIAAMACgABAAAAAAAIAAQACgABAAEAAAAHAAEACwAAAAAAAAAHAAIACwAAAAEAAAAIAAEACwABAAAAAAAIAAIACwABAAEAAAAJAAEADAAAAAAAAAAJAAIADAAAAAEAAAAKAAEADAABAAAAAAAKAAIADAABAAEAAAAPAAIADwAAAAEAAAAQAAIADwABAAEAAAANAAIADgAAAAEAAAAOAAIADgABAAEAAAALAAIADQAAAAEAAAAMAAIADQABAAEAAAARAAEAEAAAAAAAAAARAAIAEAAAAAEAAAASAAEAEAABAAAAAAASAAIAEAABAAEAAAATAAEAEwAAAAYAAAATAAIAEwAAAAcAAAATAAMAEwAAAAgAAAAUAAEAEwABAAYAAAAUAAIAEwABAAcAAAAUAAMAEwABAAgAAAAVAAAAEwACAAUAAAAVAAEAEwACAAYAAAAVAAIAEwACAAcAAAAVAAMAEwACAAgAAAAWAAEAEwAFAAsAAAAWAAIAEwAFAAwAAAAXAAEAEwAGAAsAAAAXAAIAEwAGAAwAAAAYAAEAEwAHAAsAAAAYAAIAEwAHAAwAAAAZAAEAEwADAAAAAAAZAAIAEwADAAEAAAAaAAEAEwAEAAAAAAAaAAIAEwAEAAEAAAAbAAEAEwAAAAAAAAAbAAIAEwAAAAEAAAAcAAEAEwABAAAAAAAcAAIAEwABAAEAAAAdAAEAEwACAAAAAAAdAAIAEwACAAEAAAAeAAAAEwAAAAIAAAAeAAEAEwAAAAMAAAAeAAIAEwAAAAQAAAAfAAAAEwABAAIAAAAfAAEAEwABAAMAAAAfAAIAEwABAAQAAAAgAAAAEwAAAAkAAAAhAAAAEwABAAkAAAAiAAAAEwACAAkAAAAjAAAAEwADAAkAAAAgAAEAEwAAAAoAAAAgAAIAEwAAAAsAAAAgAAMAEwAAAAwAAAAgAAQAEwAAAA0AAAAkAAEAEwADAAQAAAAkAAIAEwADAAUAAAAlAAEAEwAEAAQAAAAlAAIAEwAEAAUAAAAmAAEAEwAFAAQAAAAmAAIAEwAFAAUAAAAnAAEAEwAGAAQAAAAnAAIAEwAGAAUAAAA=")
 tile_set = ExtResource("4_kf2f2")
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="ColorRect" type="ColorRect" parent="HUD"]
-custom_minimum_size = Vector2(0, 40)
-anchors_preset = 10
-anchor_right = 1.0
-grow_horizontal = 2
-color = Color(0.11858138, 0.11858138, 0.11858138, 1)
+[node name="TextureRect" type="TextureRect" parent="HUD"]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 25.0
+offset_right = 456.0
+offset_bottom = 65.0
+texture = ExtResource("7_6q1yt")
 
-[node name="Label" type="Label" parent="HUD/ColorRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="TextureRect2" type="TextureRect" parent="HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("8_ud8q6")
+
+[node name="Label" type="Label" parent="HUD/TextureRect2"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 18.0
+
+[node name="TextureRect3" type="TextureRect" parent="HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("8_ud8q6")
+
+[node name="Label" type="Label" parent="HUD/TextureRect3"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 18.0
