@@ -1,11 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7ua0sx1jyv84"]
+[gd_scene load_steps=4 format=3 uid="uid://c7ua0sx1jyv84"]
 
 [ext_resource type="Script" uid="uid://ckpdoal4jjssd" path="res://Interfaces/Fx/result_panel.gd" id="1_s0we8"]
+[ext_resource type="Texture2D" uid="uid://bepc2a56yat4e" path="res://Interfaces/Funcion/variables.png" id="2_kq0qh"]
+
+[sub_resource type="Theme" id="Theme_kq0qh"]
+Label/colors/font_color = Color(0.99999994, 0.8045457, 0.98717815, 1)
+Label/colors/font_outline_color = Color(1, 0.8039216, 0.9882353, 1)
 
 [node name="ResultPanel" type="Node2D"]
 script = ExtResource("1_s0we8")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(64, 24)
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,12 +21,12 @@ offset_right = 32.0
 offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(18.892157, 18.892157, 18.892157, 0)
+texture = ExtResource("2_kq0qh")
 
 [node name="Label" type="Label" parent="ColorRect"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 18.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-horizontal_alignment = 1
-vertical_alignment = 1
+theme = SubResource("Theme_kq0qh")
+horizontal_alignment = 2
+vertical_alignment = 2
