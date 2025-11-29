@@ -8,12 +8,14 @@ extends Node2D
 @export var player_scene: PackedScene
 @export var door_scene: PackedScene
 @export var result_panel_scene: PackedScene
+@export var coin_scene: PackedScene
+@export var enemy_scene: PackedScene
 @onready var equation_label: Label = $HUD/TextureRect/Label
 
 # --- Capas (TileMapLayer) ---
 @onready var wall:    TileMapLayer = $TileMap/Wall
 @onready var ground:  TileMapLayer = $TileMap/Ground
-@onready var objects: TileMapLayer = $TileMap/Objects
+@onready var objects_layer: TileMapLayer = $TileMap/Objects
 
 # --- Config de muros (borde de 2) ---
 @export var WALL_SOURCE_ID := 3
@@ -27,9 +29,14 @@ extends Node2D
 
 # --- Estado runtime ---
 var player: Node2D = null
+var coins: Array = []
+var enemies: Array = []
 var door: Node2D = null
 var door2: Node2D = null
-
+var start_tile: Vector2i
+var end_tile: Vector2i
+var alt_end_tile: Vector2i
+var path_tiles: Array[Vector2i] = []
 var result_panel_door: Node2D = null    # correcto
 var result_panel_door2: Node2D = null   # incorrecto
 
@@ -37,6 +44,278 @@ var result_panel_door2: Node2D = null   # incorrecto
 var current_expression: String = ""
 var current_correct: int = 0
 var current_wrongs: Array[int] = []
+const MAX_JUMP_TILES = 4
+const MAX_GAP_TILES  = 4
+const MAX_FALL_TILES = 7
+const TILE_SIZE: int = 16
+const BORDER_TILES: int = 2
+var object_prototypes: Array = []  # se llena en _ready
+var map_width: int = 40
+var map_height: int = 23
+const NUM_OBJECT_PLACEMENTS: int = 8
+const MIN_DIST_END_TILES: int = 6
+func place_objects_on_path(path_tiles: Array[Vector2i]) -> void:
+	if object_prototypes.is_empty():
+		return
+
+	var candidates: Array[Vector2i] = get_candidate_tiles_for_objects(path_tiles)
+	if candidates.is_empty():
+		print("⚠️ No hay tiles candidatos para colocar objetos.")
+		return
+
+	candidates.shuffle()
+
+	var total_objects: int = min(NUM_OBJECT_PLACEMENTS, candidates.size())
+	var num_protos: int = object_prototypes.size()
+
+	for i in range(total_objects):
+		var anchor: Vector2i = candidates[i]
+		var proto_index: int = i % num_protos  # 0,1,2,0,1,2...
+		var proto: Dictionary = object_prototypes[proto_index]
+
+		stamp_object(proto, anchor)
+
+
+func stamp_object(proto: Dictionary, anchor_tile: Vector2i) -> void:
+	var cells: Array = proto["cells"]
+	var size_tiles: Vector2i = proto["size_tiles"]
+
+	for cell_data in cells:
+		var offset: Vector2i = cell_data["offset"]
+		var source_id: int = cell_data["source_id"]
+		var atlas: Vector2i = cell_data["atlas"]
+
+		var tile_pos: Vector2i = anchor_tile + offset + Vector2i(0, -2)
+
+		# dentro del mapa
+		if tile_pos.x < 0 or tile_pos.x >= map_width:
+			continue
+		if tile_pos.y < 0 or tile_pos.y >= map_height:
+			continue
+
+		objects_layer.set_cell(tile_pos, source_id, atlas)
+
+
+func get_candidate_tiles_for_objects(path_tiles: Array[Vector2i]) -> Array[Vector2i]:
+	var candidates: Array[Vector2i] = []
+
+	for t in path_tiles:
+		# lejos de las puertas
+		var dist_end: int = manhattan_distance(t, end_tile)
+		var dist_alt: int = manhattan_distance(t, alt_end_tile)
+
+		if dist_end < MIN_DIST_END_TILES:
+			continue
+		if dist_alt < MIN_DIST_END_TILES:
+			continue
+
+		# también podemos evitar muy cerca del inicio si quieres:
+		# var dist_start: int = manhattan_distance(t, start_tile)
+		# if dist_start < 3: continue
+
+		candidates.append(t)
+
+	return candidates
+
+
+func manhattan_distance(a: Vector2i, b: Vector2i) -> int:
+	return abs(a.x - b.x) + abs(a.y - b.y)
+
+func build_object_prototypes() -> Array:
+	var groups: Array = get_object_groups()
+	var protos: Array = []
+
+	for group in groups:
+		var info: Dictionary = get_group_bounds(group)
+		var min_tile: Vector2i = info["min"]
+		var size_tiles: Vector2i = info["size_tiles"]
+
+		var cells: Array = []  # cada elemento: { offset: Vector2i, source_id: int, atlas: Vector2i }
+
+		for t in group:
+			var offset: Vector2i = t - min_tile
+			var source_id: int = objects_layer.get_cell_source_id(t)
+			var atlas: Vector2i = objects_layer.get_cell_atlas_coords(t)
+			var cell_data: Dictionary = {
+				"offset": offset,
+				"source_id": source_id,
+				"atlas": atlas,
+			}
+			cells.append(cell_data)
+
+		var proto: Dictionary = {
+			"cells": cells,
+			"size_tiles": size_tiles,
+		}
+		protos.append(proto)
+
+	return protos
+
+
+func get_group_bounds(group: Array[Vector2i]) -> Dictionary:
+	var min_x: int = group[0].x
+	var max_x: int = group[0].x
+	var min_y: int = group[0].y
+	var max_y: int = group[0].y
+
+	for tile in group:
+		if tile.x < min_x:
+			min_x = tile.x
+		if tile.x > max_x:
+			max_x = tile.x
+		if tile.y < min_y:
+			min_y = tile.y
+		if tile.y > max_y:
+			max_y = tile.y
+
+	var width_tiles: int = max_x - min_x + 1
+	var height_tiles: int = max_y - min_y + 1
+
+	# centro en tiles
+	var center_tile := Vector2(
+		min_x + width_tiles / 2.0,
+		min_y + height_tiles / 2.0
+	)
+
+	# centro en píxeles (si necesitas posiciones en el mundo)
+	var center_px := Vector2(
+		(center_tile.x + 0.0) * TILE_SIZE,
+		(center_tile.y + 0.0) * TILE_SIZE
+	)
+
+	return {
+		"min": Vector2i(min_x, min_y),
+		"max": Vector2i(max_x, max_y),
+		"size_tiles": Vector2i(width_tiles, height_tiles),
+		"center_tile": center_tile,
+		"center_px": center_px,
+	}
+
+func get_object_groups() -> Array:
+	var groups: Array = []
+	var used: Array[Vector2i] = objects_layer.get_used_cells()
+	var visited: Dictionary = {}
+
+	for cell in used:
+		if visited.has(cell):
+			continue
+
+		var source_id: int = objects_layer.get_cell_source_id(cell)
+		var stack: Array[Vector2i] = [cell]
+		var group: Array[Vector2i] = []
+		visited[cell] = true
+
+		while stack.size() > 0:
+			var current: Vector2i = stack.pop_back()
+			group.append(current)
+
+			var dirs := [
+				Vector2i(1, 0),
+				Vector2i(-1, 0),
+				Vector2i(0, 1),
+				Vector2i(0, -1)
+			]
+
+			for d in dirs:
+				var nb: Vector2i = current + d
+				if visited.has(nb):
+					continue
+				if not used.has(nb):
+					continue
+				if objects_layer.get_cell_source_id(nb) != source_id:
+					continue
+
+				visited[nb] = true
+				stack.append(nb)
+
+		groups.append(group)
+
+	return groups
+
+func get_object_tiles() -> Dictionary:
+	var objects := {}   # key = tile signature, value = array of tile coords
+	
+	# Obtener todos los tiles colocados en este TileMapLayer
+	var used: Array[Vector2i] = objects_layer.get_used_cells()
+	
+	for tile: Vector2i in used:
+		var source_id := objects_layer.get_cell_source_id(tile)
+		var atlas_coords := objects_layer.get_cell_atlas_coords(tile)
+		
+		# clave única del "objeto"
+		var key := str(source_id) + "_" + str(atlas_coords)
+		
+		if not objects.has(key):
+			objects[key] = []
+		
+		objects[key].append(tile)
+	
+	return objects
+
+func is_ground_tile(tile: Vector2i) -> bool:
+	var source_id: int = ground.get_cell_source_id(tile)  # ✅ solo el tile
+	return source_id != -1
+
+func get_random_empty_tile() -> Vector2i:
+
+	var map_width: int = 40
+	var map_height: int = 23
+	var attempts: int = 0
+	var max_attempts: int = 100
+
+	while attempts < max_attempts:
+		attempts += 1
+
+		var tx_min: int = BORDER_TILES
+		var tx_max: int = map_width - BORDER_TILES - 1
+		var ty_min: int = BORDER_TILES
+		var ty_max: int = map_height - BORDER_TILES - 1
+
+		var tile_x: int = randi_range(tx_min, tx_max)
+		var tile_y: int = randi_range(ty_min, ty_max)
+		var tile: Vector2i = Vector2i(tile_x, tile_y)
+
+		if not is_ground_tile(tile):
+			return tile
+
+	# Si no encontramos nada “vacío”, devolvemos algo seguro
+	return Vector2i(BORDER_TILES + 1, BORDER_TILES + 1)
+
+func validate_route(path_tiles: Array[Vector2i]) -> bool:
+	if path_tiles.size() < 2:
+		print("❌ Ruta demasiado corta.")
+		return false
+
+	for i in range(path_tiles.size() - 1):
+		var a: Vector2i = path_tiles[i]
+		var b: Vector2i = path_tiles[i + 1]
+
+		var dx : int = abs(b.x - a.x)
+		var dy := b.y - a.y  # y positiva = hacia abajo en Godot
+
+		# --- Horizontal ---
+		if dx > MAX_GAP_TILES:
+			print("❌ Gap horizontal demasiado grande entre", a, "y", b, "dx:", dx)
+			return false
+
+		# --- Salto hacia arriba ---
+		if b.y < a.y:
+			var up : int = abs(dy)
+			if up > MAX_JUMP_TILES:
+				print("❌ Salto vertical muy alto entre", a, "y", b, "dy:", up)
+				return false
+
+		# --- Caída hacia abajo ---
+		if b.y > a.y:
+			var fall := dy
+			if fall > MAX_FALL_TILES:
+				print("❌ Caída demasiado grande entre", a, "y", b, "dy:", fall)
+				return false
+
+		print("✅ Segmento válido", a, "→", b, "dx:", dx, "dy:", dy)
+
+	print("✅ Ruta jugable validada con", path_tiles.size(), "puntos.")
+	return true
 
 func _update_equation_label() -> void:
 	if equation_label:
@@ -91,12 +370,11 @@ func fill_walls(tiles_x: int, tiles_y: int) -> void:
 # ============================================================
 func generate_ground() -> Dictionary:
 	# RNG
+	path_tiles.clear()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.randomize()
 
 	# Dimensiones del mapa y sectores
-	var map_width: int = 40
-	var map_height: int = 23
 	var sector_w: int = 8
 	var sector_h: int = 5
 	var sectors_x: int = map_width / sector_w
@@ -175,8 +453,9 @@ func generate_ground() -> Dictionary:
 			ground.set_cell(Vector2i(rightmost_x - i, start_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
 		start_first_x = rightmost_x - (START_WIDTH - 1)
 
-	var start_tile := Vector2i(start_first_x, start_y)
+	start_tile = Vector2i(start_first_x, start_y)
 	route_tiles.insert(0, start_tile)
+	path_tiles.append(start_tile)
 
 	# ==================== FINAL PRINCIPAL (6 tiles) ====================
 	var end_y: int
@@ -198,8 +477,9 @@ func generate_ground() -> Dictionary:
 			ground.set_cell(Vector2i(rightmost_x2 - i, end_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
 		end_first_x = rightmost_x2 - (END_WIDTH - 1)
 
-	var end_tile := Vector2i(end_first_x, end_y)
+	end_tile = Vector2i(end_first_x, end_y)
 	route_tiles.append(end_tile)
+	path_tiles.append(end_tile)
 
 	# ==================== SEGUNDA PUERTA (6 tiles) =====================
 	var alt_end_y: int
@@ -219,17 +499,31 @@ func generate_ground() -> Dictionary:
 			ground.set_cell(Vector2i(rightmost_x3 - i, alt_end_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
 		alt_end_first_x = rightmost_x3 - (END_WIDTH - 1)
 
-	var alt_end_tile := Vector2i(alt_end_first_x, alt_end_y)
+	alt_end_tile = Vector2i(alt_end_first_x, alt_end_y)
 	route_tiles.append(alt_end_tile)
+	path_tiles.append(alt_end_tile)
 
 	# --- Generar camino sectorial (DFS simple) ---
 	var stack: Array[Vector2i] = [start_sector]
+	var reached_end := false
+	var reached_alt := false
+
 	while stack.size() > 0:
 		var current: Vector2i = stack.pop_back()
+
+		if visited.has(str(current)):
+			continue
+
 		sector_path.append(current)
 		visited[str(current)] = true
 
 		if current == end_sector:
+			reached_end = true
+		if current == alt_end_sector:
+			reached_alt = true
+
+		# Cuando ya pasamos por las 2 esquinas, cortamos
+		if reached_end and reached_alt:
 			break
 
 		var dirs: Array[Vector2i] = [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]
@@ -239,18 +533,45 @@ func generate_ground() -> Dictionary:
 			if next.x >= 0 and next.x < sectors_x and next.y >= 0 and next.y < sectors_y:
 				if not visited.has(str(next)):
 					stack.append(next)
-					break
 
 	# --- Dibujar plataformas en los sectores del camino ---
+	var prev_plat_y := start_tile.y
+	var prev_plat_x := start_tile.x
 	for sec in sector_path:
 		var base_x := sec.x * sector_w
 		var base_y := sec.y * sector_h
-		var plat_y := base_y + rng.randi_range(2, sector_h - 2)
-		var plat_x := base_x + rng.randi_range(1, sector_w - 4)
+		var target_y := prev_plat_y                      # queremos mantener altura similar
+		var min_y := target_y - MAX_JUMP_TILES + 1      # no demasiado arriba
+		var max_y := target_y + MAX_JUMP_TILES - 1      # no demasiado abajo
+
+		# Limitar al sector actual
+		min_y = clamp(min_y, base_y + 2, base_y + sector_h - 2)
+		max_y = clamp(max_y, base_y + 2, base_y + sector_h - 2)
+
+		var plat_y := rng.randi_range(min_y, max_y)
+		# Mantener X cerca del anterior, para evitar gaps imposibles
+		var target_x := prev_plat_x
+		var min_x := target_x - MAX_GAP_TILES
+		var max_x := target_x + MAX_GAP_TILES
+
+		# Clampear al sector actual
+		var sector_min := base_x + 1
+		var sector_max := base_x + sector_w - 4
+
+		min_x = clamp(min_x, sector_min, sector_max)
+		max_x = clamp(max_x, sector_min, sector_max)
+
+		var plat_x := rng.randi_range(min_x, max_x)
 		var width := rng.randi_range(3, 5)
 		for i in range(width):
 			ground.set_cell(Vector2i(plat_x + i, plat_y), GROUND_SOURCE_ID, GROUND_ATLAS_BASE)
 		route_tiles.append(Vector2i(plat_x, plat_y))
+		path_tiles.append(Vector2i(plat_x, plat_y))
+		prev_plat_y = plat_y
+		prev_plat_x = plat_x
+	var ok := validate_route(path_tiles)
+	if not ok:
+		print("❌ Ruta no jugable, deberías regenerar el nivel.")
 
 	return {
 		"route_tiles": route_tiles,
@@ -261,8 +582,29 @@ func generate_ground() -> Dictionary:
 		"grid_size": Vector2i(sectors_x, sectors_y),
 		"start_tile": start_tile,
 		"end_tile": end_tile,
-		"alt_end_tile": alt_end_tile
+		"alt_end_tile": alt_end_tile,
+		"path_tiles": path_tiles,
 	}
+
+func get_random_inside_map() -> Vector2:
+	const TILE_SIZE: int = 16
+	const BORDER_TILES: int = 3
+	var map_width: int = 40
+	var map_height: int = 23
+	var min_tx: int = BORDER_TILES
+	var max_tx: int = map_width - BORDER_TILES - 1
+	
+	var min_ty: int = BORDER_TILES
+	var max_ty: int = map_height - BORDER_TILES - 1
+
+	var tile_x: int = randi_range(min_tx, max_tx)
+	var tile_y: int = randi_range(min_ty, max_ty)
+
+	# Centro del tile → le sumo 0.5
+	var px: float = (tile_x + 0.5) * TILE_SIZE
+	var py: float = (tile_y + 0.5) * TILE_SIZE
+
+	return Vector2(px, py)
 func cell_one_tile_up_global(layer: TileMapLayer, cell: Vector2i) -> Vector2:
 	var ts: Vector2i = layer.tile_set.tile_size
 
@@ -317,52 +659,6 @@ func validate_route_sectors(path: Array, start_sector: Vector2i, end_sector: Vec
 # ============================================================
 # 🧗 VALIDACIÓN DE RUTA JUGABLE (MICRO)
 # ============================================================
-func validate_route(route: Array) -> bool:
-	var player_height = 3
-	var clearance = 1
-	var max_up = 3
-	var max_down = 5
-	var max_jump = 5
-	var max_walk = 6
-
-	if route.size() < 2:
-		print("Ruta demasiado corta")
-		return false
-
-	for i in range(route.size() - 1):
-		var a = route[i]
-		var b = route[i + 1]
-		var dx = abs(b.x - a.x)
-		var dy = b.y - a.y
-
-		if dy < 0:
-			var up = abs(dy)
-			if up > max_up:
-				print("❌ Salto muy alto:", up, "tiles de", a, "a", b)
-				return false
-			elif up >= 2 and dx > max_jump:
-				print("❌ Salto alto + desplazamiento largo:", dx, "tiles")
-				return false
-		elif dy > 0:
-			if dy > max_down:
-				print("❌ Caída muy grande:", dy, "tiles")
-				return false
-			elif dx > max_walk:
-				print("❌ Caída muy separada:", dx, "tiles")
-				return false
-		else:
-			if dx > max_walk:
-				print("❌ Plano demasiado largo:", dx, "tiles")
-				return false
-
-		if b.y < (player_height + clearance):
-			print("⚠️ Sin espacio libre arriba en", b)
-			return false
-
-		print("✅ Salto válido de", a, "a", b, "dx:", dx, "dy:", dy)
-
-	return true
-	
 func _request_new_equation() -> void:
 	var result: Dictionary = await ApiClient.fetch_equation(3, 1)
 	if typeof(result) != TYPE_DICTIONARY or result.is_empty():
@@ -402,6 +698,19 @@ func _apply_results_to_panels() -> void:
 	# door2 = incorrecto
 	result_panel_door2.call("set_number", wrong_value)
 
+func spawn_coins():
+	for i in range(3):
+		var coin = coin_scene.instantiate()
+		coin.position = get_random_inside_map()
+		add_child(coin)
+		coins.append(coin)
+		
+func spawn_enemies():
+	for i in range(2):
+		var enemy = enemy_scene.instantiate()
+		enemy.position = get_random_inside_map()
+		add_child(enemy)
+		enemies.append(enemy)
 
 func _ready() -> void:
 	# Alinear TileMap y capas al origen
@@ -410,9 +719,10 @@ func _ready() -> void:
 		wall.position = Vector2.ZERO
 	if ground:
 		ground.position = Vector2.ZERO
-	if objects:
-		objects.position = Vector2.ZERO
-	
+	if objects_layer:
+		objects_layer.position = Vector2.ZERO
+	object_prototypes = build_object_prototypes()
+	objects_layer.clear()  # limpiamos los “de muestra” del editor
 	# Calcular tamaño del mapa en tiles según el viewport
 	var size := get_viewport().get_visible_rect().size
 	var tiles_x := int(size.x / wall.tile_set.tile_size.x)
@@ -422,7 +732,7 @@ func _ready() -> void:
 
 	# Generar piso y obtener datos de inicio/fin
 	var gen: Dictionary = generate_ground()
-
+	place_objects_on_path(path_tiles)
 	# Instanciar PLAYER si hace falta
 	if player == null and player_scene:
 		player = player_scene.instantiate()
@@ -462,7 +772,8 @@ func _ready() -> void:
 
 	# PUERTA 2 en alt_end_cell (segunda esquina, lejos del player)
 	door2.position = cell_one_tile_up_global2(ground, alt_end_cell)
-	
+	spawn_coins()
+	spawn_enemies()
 	# ====== CARTELITOS BAJO LAS PUERTAS (IMAGEN + TEXTO) ======
 	if result_panel_scene:
 		var ts: Vector2i = _ts_tile_size()
@@ -477,5 +788,14 @@ func _ready() -> void:
 		result_panel_door2 = result_panel_scene.instantiate()
 		add_child(result_panel_door2)
 		result_panel_door2.position = door2.position + offset_under
-		
+	var groups: Array = get_object_groups()
+	for i in range(groups.size()):
+		var info := get_group_bounds(groups[i])
+		print("Objeto", i)
+		print("  Tiles:", groups[i])
+		print("  min:", info["min"], "max:", info["max"])
+		print("  size (tiles):", info["size_tiles"])
+		print("  center_tile:", info["center_tile"])
+		print("  center_px:", info["center_px"])
+
 	await _request_new_equation()

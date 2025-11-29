@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=4 uid="uid://cj8wjk4sdbbus"]
+[gd_scene load_steps=10 format=4 uid="uid://cj8wjk4sdbbus"]
 
 [ext_resource type="Script" uid="uid://c8kx7wome5yds" path="res://procedural/level_procedural.gd" id="1_tuvds"]
 [ext_resource type="PackedScene" uid="uid://b33mmxlw6v4o5" path="res://Personaje/personaje.tscn" id="2_cfm8c"]
 [ext_resource type="PackedScene" uid="uid://cexkktb7pq7ui" path="res://Niveles/puerta.tscn" id="3_kf2f2"]
 [ext_resource type="TileSet" uid="uid://cakvomxog2llh" path="res://Niveles/nivel_1.tres" id="4_kf2f2"]
 [ext_resource type="PackedScene" uid="uid://c7ua0sx1jyv84" path="res://Interfaces/Fx/ResultPanel.tscn" id="4_xdq1b"]
+[ext_resource type="PackedScene" uid="uid://d03c1jujdtepq" path="res://Interfaces/coin.tscn" id="5_6q1yt"]
 [ext_resource type="Texture2D" uid="uid://d8ie2uup3eym" path="res://Sprites Proyecto/2 Background/Background.png" id="5_m3f1t"]
+[ext_resource type="PackedScene" uid="uid://cn4o5xf1iui63" path="res://Enemigos/enemigo.tscn" id="6_ud8q6"]
 [ext_resource type="Texture2D" uid="uid://bv5yugadevxg5" path="res://Interfaces/Funcion/funciones.png" id="7_6q1yt"]
 
 [node name="LevelProcedural" type="Node2D"]
@@ -13,6 +15,8 @@ script = ExtResource("1_tuvds")
 player_scene = ExtResource("2_cfm8c")
 door_scene = ExtResource("3_kf2f2")
 result_panel_scene = ExtResource("4_xdq1b")
+coin_scene = ExtResource("5_6q1yt")
+enemy_scene = ExtResource("6_ud8q6")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(323.77783, 184.50002)
@@ -32,7 +36,7 @@ tile_map_data = PackedByteArray("AAABAAEABQAAAAAAAAACAAEABQABAAAAAAA=")
 tile_set = ExtResource("4_kf2f2")
 
 [node name="Objects" type="TileMapLayer" parent="TileMap"]
-tile_map_data = PackedByteArray("AAADAAEABgAAAAAAAAADAAIABgAAAAEAAAAEAAEABgABAAAAAAAEAAIABgABAAEAAAAHAAMACgAAAAAAAAAHAAQACgAAAAEAAAAIAAMACgABAAAAAAAIAAQACgABAAEAAAAHAAEACwAAAAAAAAAHAAIACwAAAAEAAAAIAAEACwABAAAAAAAIAAIACwABAAEAAAAJAAEADAAAAAAAAAAJAAIADAAAAAEAAAAKAAEADAABAAAAAAAKAAIADAABAAEAAAAPAAIADwAAAAEAAAAQAAIADwABAAEAAAANAAIADgAAAAEAAAAOAAIADgABAAEAAAALAAIADQAAAAEAAAAMAAIADQABAAEAAAARAAEAEAAAAAAAAAARAAIAEAAAAAEAAAASAAEAEAABAAAAAAASAAIAEAABAAEAAAATAAEAEwAAAAYAAAATAAIAEwAAAAcAAAATAAMAEwAAAAgAAAAUAAEAEwABAAYAAAAUAAIAEwABAAcAAAAUAAMAEwABAAgAAAAVAAAAEwACAAUAAAAVAAEAEwACAAYAAAAVAAIAEwACAAcAAAAVAAMAEwACAAgAAAAWAAEAEwAFAAsAAAAWAAIAEwAFAAwAAAAXAAEAEwAGAAsAAAAXAAIAEwAGAAwAAAAYAAEAEwAHAAsAAAAYAAIAEwAHAAwAAAAZAAEAEwADAAAAAAAZAAIAEwADAAEAAAAaAAEAEwAEAAAAAAAaAAIAEwAEAAEAAAAbAAEAEwAAAAAAAAAbAAIAEwAAAAEAAAAcAAEAEwABAAAAAAAcAAIAEwABAAEAAAAdAAEAEwACAAAAAAAdAAIAEwACAAEAAAAeAAAAEwAAAAIAAAAeAAEAEwAAAAMAAAAeAAIAEwAAAAQAAAAfAAAAEwABAAIAAAAfAAEAEwABAAMAAAAfAAIAEwABAAQAAAAgAAAAEwAAAAkAAAAhAAAAEwABAAkAAAAiAAAAEwACAAkAAAAjAAAAEwADAAkAAAAgAAEAEwAAAAoAAAAgAAIAEwAAAAsAAAAgAAMAEwAAAAwAAAAgAAQAEwAAAA0AAAAkAAEAEwADAAQAAAAkAAIAEwADAAUAAAAlAAEAEwAEAAQAAAAlAAIAEwAEAAUAAAAmAAEAEwAFAAQAAAAmAAIAEwAFAAUAAAAnAAEAEwAGAAQAAAAnAAIAEwAGAAUAAAA=")
+tile_map_data = PackedByteArray("AAAWAAEAEwAFAAsAAAAWAAIAEwAFAAwAAAAXAAEAEwAGAAsAAAAXAAIAEwAGAAwAAAAYAAEAEwAHAAsAAAAYAAIAEwAHAAwAAAAKAAIADAABAAEAAAAKAAEADAABAAAAAAAJAAEADAAAAAAAAAAJAAIADAAAAAEAAAAbAAEAEwADAAAAAAAbAAIAEwADAAEAAAAcAAEAEwAEAAAAAAAcAAIAEwAEAAEAAAA=")
 tile_set = ExtResource("4_kf2f2")
 
 [node name="HUD" type="Control" parent="."]
