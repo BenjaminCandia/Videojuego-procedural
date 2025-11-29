@@ -8,7 +8,7 @@ extends Node2D
 @export var player_scene: PackedScene
 @export var door_scene: PackedScene
 @export var result_panel_scene: PackedScene
-@onready var equation_label: Label = $HUD/ColorRect/Label
+@onready var equation_label: Label = $HUD/TextureRect/Label
 
 # --- Capas (TileMapLayer) ---
 @onready var wall:    TileMapLayer = $TileMap/Wall

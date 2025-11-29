@@ -8,9 +8,9 @@ anchors_preset = 0
 
 [node name="HUD" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 168.0
-offset_top = 9.0
-offset_right = 460.0
-offset_bottom = 51.0
+offset_left = 160.0
+offset_top = -96.0
+offset_right = 452.0
+offset_bottom = -54.0
 texture = ExtResource("1_bm8cb")
 expand_mode = 1

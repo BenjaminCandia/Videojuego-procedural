@@ -48,3 +48,12 @@ offset_top = 25.0
 offset_right = 456.0
 offset_bottom = 65.0
 texture = ExtResource("7_6q1yt")
+
+[node name="Label" type="Label" parent="HUD/TextureRect"]
+layout_mode = 0
+offset_left = 89.0
+offset_top = 9.0
+offset_right = 129.0
+offset_bottom = 27.0
+horizontal_alignment = 1
+vertical_alignment = 1

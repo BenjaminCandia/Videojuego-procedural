@@ -1,7 +1,7 @@
 extends Node
 
 # Variables globales
-var coins_total := 15
+var coins_total := 0
 var elapsed_time := 0.0
 var timer_running := false
 var level_times := {}
