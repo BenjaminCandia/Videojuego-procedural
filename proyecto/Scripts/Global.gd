@@ -6,7 +6,7 @@ var elapsed_time := 0.0
 var timer_running := false
 var level_times := {}
 
-# 🔔 Señal para notificar cambios en las monedas
+# Señal para notificar cambios en las monedas
 signal monedas_actualizadas(nuevo_total)
 
 # Aumenta monedas

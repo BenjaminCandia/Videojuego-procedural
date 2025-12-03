@@ -16,7 +16,7 @@ var is_dashing: bool = false
 var can_dash: bool = true
 var dash_timer: float = 0.0
 var dash_cooldown_timer: float = 0.0
-var is_dead: bool = false   # 👈 Nuevo: evita mover al jugador cuando muere
+var is_dead: bool = false   # Nuevo: evita mover al jugador cuando muere
 
 
 func _physics_process(delta):
@@ -120,7 +120,7 @@ func die():
 
 # --- REINICIAR NIVEL CON RETRASO ---
 func _restart_level_with_delay():
-	await get_tree().create_timer(0.5).timeout   # 🕒 Espera 1 segundo
+	await get_tree().create_timer(0.5).timeout   # Espera 1 segundo
 
 	var current_scene_path = get_tree().current_scene.scene_file_path
 	get_tree().change_scene_to_file(current_scene_path)

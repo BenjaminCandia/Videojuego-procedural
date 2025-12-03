@@ -42,7 +42,7 @@ func update_coins():
 	if coins_label:
 		coins_label.text = str(Global.coins_total)
 
-# 🔔 Nueva función: actualiza el HUD al recibir la señal
+# Nueva función: actualiza el HUD al recibir la señal
 func _on_monedas_actualizadas(nuevo_total):
 	print("[HUD] Actualizando monedas en HUD. Nuevo total:", nuevo_total)
 	update_coins()

@@ -1,7 +1,7 @@
 extends Node2D
 
 # ============================================================
-# 🧩 MÓDULO: Variables
+#  MÓDULO: Variables
 # ============================================================
 
 # --- Escenas a instanciar ---
@@ -109,10 +109,6 @@ func get_candidate_tiles_for_objects(path_tiles: Array[Vector2i]) -> Array[Vecto
 		if dist_alt < MIN_DIST_END_TILES:
 			continue
 
-		# también podemos evitar muy cerca del inicio si quieres:
-		# var dist_start: int = manhattan_distance(t, start_tile)
-		# if dist_start < 3: continue
-
 		candidates.append(t)
 
 	return candidates
@@ -177,7 +173,7 @@ func get_group_bounds(group: Array[Vector2i]) -> Dictionary:
 		min_y + height_tiles / 2.0
 	)
 
-	# centro en píxeles (si necesitas posiciones en el mundo)
+	# centro en píxeles
 	var center_px := Vector2(
 		(center_tile.x + 0.0) * TILE_SIZE,
 		(center_tile.y + 0.0) * TILE_SIZE
@@ -322,7 +318,7 @@ func _update_equation_label() -> void:
 		equation_label.text = current_expression
 
 # ============================================================
-# 🧩 MÓDULO: TILES (utilidades de tiles y grilla)
+#  MÓDULO: TILES (utilidades de tiles y grilla)
 # ============================================================
 
 func _ts_tile_size() -> Vector2i:
@@ -341,7 +337,7 @@ func _tile_center_world(tile: Vector2i) -> Vector2:
 	var ts: Vector2i =  ground.tile_set.tile_size if ground and ground.tile_set else  Vector2i(16, 16)
 	return Vector2((tile.x + 0.5) * ts.x, (tile.y + 0.5) * ts.y)
 
-# Atlas helper para patrones de suelo (si quieres alternar visual)
+# Atlas helper para patrones de suelo
 func _ground_atlas_for(x:int, y:int) -> Vector2i:
 	match ground_pattern:
 		"checker_x":
@@ -354,7 +350,7 @@ func _ground_atlas_for(x:int, y:int) -> Vector2i:
 			return GROUND_ATLAS_BASE
 
 # ============================================================
-# 🧱 CREA MUROS DE 2 TILES DE GROSOR, PATRÓN 2×2 REPETIDO
+#  CREA MUROS DE 2 TILES DE GROSOR, PATRÓN 2×2 REPETIDO
 # ============================================================
 func fill_walls(tiles_x: int, tiles_y: int) -> void:
 	wall.clear()
@@ -366,7 +362,7 @@ func fill_walls(tiles_x: int, tiles_y: int) -> void:
 				wall.set_cell(Vector2i(x, y), WALL_SOURCE_ID, Vector2i(atlas_x, atlas_y))
 
 # ============================================================
-# 🪨 MÓDULO: GENERAR SUELO (route + plataformas por sectores)
+#  MÓDULO: GENERAR SUELO (route + plataformas por sectores)
 # ============================================================
 func generate_ground() -> Dictionary:
 	# RNG
@@ -418,7 +414,7 @@ func generate_ground() -> Dictionary:
 	var OFFSET_SIDE := 2
 	var START_WIDTH := 2
 	var END_WIDTH := 6
-	var BORDER := border_thickness            # ej: 2
+	var BORDER := border_thickness
 
 	# Tamaño total del mapa en tiles
 	var MAP_W := int(map_width)
@@ -628,7 +624,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("restart"):
 		get_tree().reload_current_scene()
 # ============================================================
-# 🧠 VALIDACIÓN DE RUTA SECTORIAL (MACRO)
+#  VALIDACIÓN DE RUTA SECTORIAL (MACRO)
 # ============================================================
 func validate_route_sectors(path: Array, start_sector: Vector2i, end_sector: Vector2i, total_x: int, total_y: int) -> bool:
 	if path.is_empty():
@@ -657,7 +653,7 @@ func validate_route_sectors(path: Array, start_sector: Vector2i, end_sector: Vec
 	return true
 
 # ============================================================
-# 🧗 VALIDACIÓN DE RUTA JUGABLE (MICRO)
+#  VALIDACIÓN DE RUTA JUGABLE (MICRO)
 # ============================================================
 func _request_new_equation() -> void:
 	var result: Dictionary = await ApiClient.fetch_equation(3, 1)
@@ -722,7 +718,7 @@ func _ready() -> void:
 	if objects_layer:
 		objects_layer.position = Vector2.ZERO
 	object_prototypes = build_object_prototypes()
-	objects_layer.clear()  # limpiamos los “de muestra” del editor
+	objects_layer.clear()
 	# Calcular tamaño del mapa en tiles según el viewport
 	var size := get_viewport().get_visible_rect().size
 	var tiles_x := int(size.x / wall.tile_set.tile_size.x)

@@ -3,7 +3,7 @@ extends CharacterBody2D
 const EnemyRun = 70
 
 func _ready():
-	add_to_group("enemigo")  # 👈 necesario
+	add_to_group("enemigo")  # necesario
 	velocity.x = -EnemyRun
 	$AnimatedSprite2D.play("estatico")
 	$AnimatedSprite2D.flip_h = true

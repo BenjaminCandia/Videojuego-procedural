@@ -1,8 +1,8 @@
 extends Node
 
-const BASE_URL := "https://procedural-game-landing.onrender.com" # tu dominio de Ruby (Render, Railway, etc.)
+const BASE_URL := "https://procedural-game-landing.onrender.com"
 
-## Endpoints (ajusta estos paths)
+## Endpoints
 const EQUATION_ENDPOINT: String = "/api/math/random?"   # GET
 const SCORE_ENDPOINT: String = "/api/highscores"        # POST
 
@@ -17,7 +17,7 @@ func fetch_equation(var_count: int, complexity: int) -> Dictionary:
 	var http: HTTPRequest = HTTPRequest.new()
 	add_child(http)
 
-	var headers: PackedStringArray = PackedStringArray()  # sin headers especiales para GET
+	var headers: PackedStringArray = PackedStringArray()
 	var error: Error = http.request(url, headers, HTTPClient.METHOD_GET)
 
 	if error != OK:
