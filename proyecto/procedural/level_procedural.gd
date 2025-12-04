@@ -742,7 +742,11 @@ func _ready() -> void:
 		door = door_scene.instantiate()
 		add_child(door)
 		# Esta escena se vuelve el "siguiente nivel" (reinicio)
-		var level_path := get_tree().current_scene.scene_file_path
+		var level_path := ''
+		if Global.q_levels != 0 and Global.q_levels % 4 == 0:
+			level_path = 'res://Niveles/tienda.tscn'
+		else:
+			level_path = get_tree().current_scene.scene_file_path
 		door.next_scene = level_path   # string
 		print("🔍 next_scene =", door.next_scene, "  (tipo:", typeof(door.next_scene), ")")
 
@@ -784,14 +788,5 @@ func _ready() -> void:
 		result_panel_door2 = result_panel_scene.instantiate()
 		add_child(result_panel_door2)
 		result_panel_door2.position = door2.position + offset_under
-	var groups: Array = get_object_groups()
-	for i in range(groups.size()):
-		var info := get_group_bounds(groups[i])
-		print("Objeto", i)
-		print("  Tiles:", groups[i])
-		print("  min:", info["min"], "max:", info["max"])
-		print("  size (tiles):", info["size_tiles"])
-		print("  center_tile:", info["center_tile"])
-		print("  center_px:", info["center_px"])
 
 	await _request_new_equation()

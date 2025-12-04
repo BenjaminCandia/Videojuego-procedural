@@ -229,7 +229,7 @@ height = 28.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t148j"]
 radius = 9.0
 
-[node name="personaje" type="CharacterBody2D"]
+[node name="personaje" type="CharacterBody2D" groups=["Player"]]
 position = Vector2(-3, 0)
 collision_mask = 3
 script = ExtResource("1_rbp53")

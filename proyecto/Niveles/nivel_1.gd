@@ -21,6 +21,6 @@ func _on_puerta_body_entered(body: Node) -> void:
 		puerta.set_deferred("monitorable", false)
 
 		# Guarda tiempo en memoria
-		var level_name = self.name
-		Global.save_level_time(level_name, Global.elapsed_time)
+		#var level_name = self.name
+		#Global.save_level_time(level_name, Global.elapsed_time)
 		get_tree().call_deferred("change_scene_to_file", next_scene_path)

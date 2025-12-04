@@ -5,6 +5,7 @@ var coins_total := 0
 var elapsed_time := 0.0
 var timer_running := false
 var level_times := {}
+var q_levels : int = 0
 
 # Señal para notificar cambios en las monedas
 signal monedas_actualizadas(nuevo_total)
@@ -20,6 +21,10 @@ func award_coin():
 func start_timer():
 	elapsed_time = 0.0
 	timer_running = true
+
+# Aumenta q level
+func level_complete():
+	q_levels += 1
 
 # Detiene cronómetro
 func stop_timer():
