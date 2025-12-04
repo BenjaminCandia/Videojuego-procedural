@@ -709,6 +709,8 @@ func spawn_enemies():
 		enemies.append(enemy)
 
 func _ready() -> void:
+	if MusicManager and not MusicManager.playing:
+		MusicManager.play()
 	# Alinear TileMap y capas al origen
 	$TileMap.position = Vector2.ZERO
 	if wall:
